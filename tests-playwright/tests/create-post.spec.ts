@@ -1,60 +1,121 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 
-const BASE_URL = "https://ghost-ur1e.onrender.com/ghost/";
-// const BASE_URL = "https://ghost-gnt9.onrender.com/ghost/#/signin";
+const BASE_URL = "https://ghost-ur1e.onrender.com/";
+const DEFAULT_USERNAME = 'pruebauniandes@uniandes.edu.co';
+const DEFAULT_PASSWORD = 'Uniandes123456';
 
-test('Create post with title and content empty', async ({ page }) => {
-    await page.goto(BASE_URL + "#/signin");
+async function doLogin(page: Page) {
+    await page.goto(BASE_URL + "ghost/#/signin");
 
     const emailTextField = page.locator('[name="identification"]');
-    await emailTextField.fill('pruebauniandes@uniandes.edu.co');
+    await emailTextField.fill(DEFAULT_USERNAME);
 
     const passwordTextField = page.locator('[name="password"]');
-    await passwordTextField.fill('Uniandes123456');
+    await passwordTextField.fill(DEFAULT_PASSWORD);
 
     await page.getByRole('button', { name: 'Sign in' }).click();
+}
 
+async function doNavigateToCreatePost(page: Page) {
     const postsLink = await page.waitForSelector('a[href="#/posts/"]');
     await postsLink.click();
 
     const createPostsLink = await page.waitForSelector('a[href="#/editor/post/"]');
     await createPostsLink.click();
+}
 
-    // const titleElement = page.locator('#ember149');
-    const titleElement = page.locator(`textarea[placeholder="Post title"]`); // Adjust the selector as needed
-    await titleElement.focus();
-    await titleElement.press('Enter')
+async function doPublishPost(page: Page) {
+    const publishButtonSelector = 'button.gh-btn.gh-btn-editor.darkgrey.gh-publish-trigger';
+
+    await page.waitForSelector(publishButtonSelector, { timeout: 5000 });
     await page.waitForTimeout(1000);
+    await page.locator(publishButtonSelector).click();
 
-    const articleElement = page.locator('article[data-placeholder="Begin writing your post...]');
-    await articleElement.focus();
-    await articleElement.press('Enter');
+    const finalReviewButtonSelector = 'button.gh-btn.gh-btn-black.gh-btn-large';
 
+    await page.waitForSelector(finalReviewButtonSelector, { timeout: 5000 });
     await page.waitForTimeout(1000);
-    await articleElement.press('Backspace');
+    await page.locator(finalReviewButtonSelector).click();
 
-    // let initialText = await page.locator('p.main-error').textContent();
+    const publishPostButtonSelector = 'button.gh-btn.gh-btn-large.gh-btn-pulse.ember-view';
 
-    // let currentText: string | null = null;
+    await page.waitForSelector(publishPostButtonSelector, { timeout: 5000 });
+    await page.waitForTimeout(1000);
+    await page.locator(publishPostButtonSelector).click();
+}
 
-    // const maxAttempts = 20;
+async function doVisitPostJustCreated(page: Page) {
+    const publishedPostLink = await page.waitForSelector('a.gh-post-bookmark-wrapper');
+    await publishedPostLink.click();
+}
 
-    // let attempt = 0;
+async function doFillTitleAndContent(page: Page, title: string = "", content: string = "") {
+    const titleInput = page.locator(`textarea[placeholder="Post title"]`);
+    await titleInput.focus();
+    await titleInput.fill(title);
+    await titleInput.press('Enter')
 
-    // // lógica para esperar a que haya cambiado el texto inicial.
-    // // Espera durante attemp*500ms
-    // while (attempt < maxAttempts) {
-    //   const paragraphElement = page.locator('p.main-error');
-    //   currentText = await paragraphElement.textContent();
-    //   if (currentText !== initialText) {
-    //     break;
-    //   }
+    const contentInput = page.locator('div[data-kg="editor"]');
 
-    //   initialText = currentText;
-    //   attempt++;
-    //   await page.waitForTimeout(500);
-    // }
+    await contentInput.focus();
+    await contentInput.fill(content);
+    await contentInput.press('Enter');
+    await contentInput.press('Backspace');
+}
 
-    // expect(currentText).toContain('Your password is incorrect.'); 
+test('Create post with title and content empty', async ({ page }) => {
+    await doLogin(page);
 
+    await doNavigateToCreatePost(page);
+
+    await doFillTitleAndContent(page);
+
+    await doPublishPost(page);
+    await doVisitPostJustCreated(page);
+
+    await expect(page).toHaveTitle(/Untitle/, { timeout: 3000 });
 });
+
+test('Create post with valid title', async ({ page }) => {
+    const postTitle = 'Post title 1';
+
+    await doLogin(page);
+
+    await doNavigateToCreatePost(page);
+
+    await doFillTitleAndContent(page, postTitle);
+
+    await doPublishPost(page);
+    await doVisitPostJustCreated(page);
+
+    const postTitleRegex = new RegExp(`\\b${postTitle}\\b`);
+    await expect(page).toHaveTitle(postTitleRegex, { timeout: 3000 });
+});
+
+
+test('Create post with custom url', async ({ page }) => {
+    const customUrl = 'post-test-custom-url/';
+
+    await doLogin(page);
+
+    await doNavigateToCreatePost(page);
+
+    await doFillTitleAndContent(page);
+
+    const settingsButton = page.locator('button[title="Settings"]');
+    await settingsButton.click();
+
+    const urlInput = page.locator('input[name="post-setting-slug"][id="url"]');
+    await urlInput.fill(customUrl);
+
+    await doPublishPost(page);
+    await doVisitPostJustCreated(page);
+
+    await page.goto(BASE_URL + customUrl);
+
+    await expect(page).toHaveURL(BASE_URL + customUrl);
+
+    await expect(page).toHaveTitle(/Untitle/, { timeout: 3000 });
+});
+
+
