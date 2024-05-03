@@ -1,6 +1,7 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { login } = require('./po-login.js');
 const assert = require("assert"); 
+
 When('I enter email {string}', async function (email) {
     let element = await this.driver.$('#ember6');
     return await element.setValue(email);
