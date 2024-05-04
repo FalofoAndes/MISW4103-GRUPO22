@@ -12,3 +12,4 @@ El grupo de trabajo está conformado por:
 - Jairo Reyes (ja.reyesr1@uniandes.edu.co)
 
 En los directorios [tests-kraken](tests-kraken) y [tests-playwright](tests-playwright) están las instrucciones de uso de cada uno de los proyectos. 
+
