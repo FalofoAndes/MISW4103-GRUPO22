@@ -120,6 +120,35 @@ Then('I see the error about longer title {string}', async function (title) {
 });
 
 
+/* FUNCIONALIDAD CREATE PAGE*/
 
+Then('I confirm that the error {string} in date picker is shown', async function (error) {
+    const element = await this.driver.$(".gh-date-time-picker-error");
+    let textElement= await element.getText();
+    assert(textElement.includes(error));
+});
 
+When('I delete author tag', async function () {
+    let element = await this.driver.$("#author-list");
+    await element.click();
+    await element.waitForEnabled();
+    await element.keys(['Backspace']);
+    return await element.click();
+});
 
+Then('I confirm that the error {string} in Authors is shown', async function (error) {
+    const element = await this.driver.$('div.for-select.form-group.error.ember-view>.response');
+    let textElement= await element.getText();
+    assert(textElement.includes(error));
+});
+
+Then('I see the first page in list with name untitled', async function () {
+    let element =await this.driver.$('li.gh-list-row.gh-posts-list-item a.gh-list-data.gh-post-list-title');
+    let textElement= await element.getText();
+    assert(textElement.includes("(Untitled)"));
+});
+
+Then('I confirm that the title page contains the inserted title {string}', async function (newTitle) {
+    const title = await this.driver.getTitle();
+    assert(title.includes(newTitle));
+});
