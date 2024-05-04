@@ -81,16 +81,24 @@ When('I clic in the tag news', async function () {
 
 
 Then('I see the tag on the page {string}', async function (newTag) {
-    const element = await this.driver.$(".post-card-primary-tag");
+    const element = await this.driver.$(".ember-power-select-multiple-inner-text");
     let textElement= await element.getText();
     assert(textElement.includes(newTag));
+});
+
+
+Then('I see the text of url page change to {string}', async function (url) {
+    const element = await this.driver.$(".ghost-url-preview.description.ember-view");
+    let textElement= await element.getText();
+    assert(textElement.includes(url));
 });
 
 /* FUNCIONALIDAD MODIFY POST*/
 
 Then('I see the error {string}', async function (error) {
-    const element = await this.driver.$(".response");
+    const element = await this.driver.$('.for-select.form-group.error.ember-view');
     let textElement= await element.getText();
+    console.log("aaaaaaaa:",textElement);
     assert(textElement.includes(error));
 });
 

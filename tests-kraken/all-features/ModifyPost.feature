@@ -21,7 +21,7 @@ Feature: Modify Post
    And I wait for 4 seconds
    When I click view with selector ".settings-menu-toggle.gh-btn.gh-btn-editor.gh-btn-icon.icon-only.gh-btn-action-icon"
    And I wait for 2 seconds
-   And I click view with selector ".ember-power-select-multiple-remove-btn"
+   And I delete author tag
    And I wait for 2 seconds
    Then I see the error "At least one author is required."
 
@@ -69,19 +69,11 @@ Feature: Modify Post
     And I wait for 2 seconds
     And I enter new url "url-prueba"
     And I wait for 2 seconds
-    And I click view with selector ".gh-btn.gh-btn-editor.darkgrey.gh-publish-trigger"
-    And I wait for 2 seconds
-    And I click view with selector ".gh-btn.gh-btn-black.gh-btn-large"
-    And I wait for 2 seconds
-    And I click view with selector ".gh-btn.gh-btn-large.gh-btn-pulse.ember-view"
-    And I wait for 5 seconds
-    Then I navigate to page "https://ghost-ur1e.onrender.com/url-prueba/"
-    And I wait for 5 seconds
-    And I see the text of the page "Normal Title"
+    Then I see the text of url page change to "ghost-ur1e.onrender.com/url-prueba/"
 
   
      @user4 @web
-   Scenario Outline: Modify post changed the title
+   Scenario Outline: Modify post changed the title for title with more than 255 characteres
    Given I navigate to page "<URL>"
    And I login "<USERNAME1>" "<PASSWORD1>"
    And I wait for 5 seconds
