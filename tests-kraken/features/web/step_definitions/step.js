@@ -152,3 +152,26 @@ Then('I confirm that the title page contains the inserted title {string}', async
     const title = await this.driver.getTitle();
     assert(title.includes(newTitle));
 });
+
+When('I enter url {kraken-string}', async function (newUrl) {
+    const element= await this.driver.$('#url');
+    return await element.setValue(newUrl);
+    
+});
+
+Then('I see the first page in list with name {string}', async function (name) {
+    let element =await this.driver.$('li.gh-list-row.gh-posts-list-item a.gh-list-data.gh-post-list-title');
+    let textElement= await element.getText();
+    assert(textElement.includes(name));
+});
+
+Then('I clear title', async function () {
+    let element =await this.driver.$('.gh-editor-title.ember-text-area.gh-input.ember-view');
+    return await element.setValue('');
+});
+
+Then('I confirm that the validation error {string} is shown', async function (error) {
+    const element = await this.driver.$(".gh-alert-content");
+    let textElement= await element.getText();
+    assert(textElement.includes(error));
+});

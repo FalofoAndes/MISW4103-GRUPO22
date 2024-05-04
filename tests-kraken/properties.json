@@ -3,6 +3,8 @@
     "USERNAME1": "pruebauniandes@uniandes.edu.co",
     "PASSWORD1": "Uniandes123456",
     "URL": "https://ghost-ur1e.onrender.com/ghost/#/signin",
-    "URL_PAGES": "https://ghost-ur1e.onrender.com/ghost/#/pages"
+    "URL_PAGES": "https://ghost-ur1e.onrender.com/ghost/#/pages",
+    "PAGE_TEST": "page_test",
+    "URL_PAGE_TEST": "https://ghost-ur1e.onrender.com/page_test"
 
 }
