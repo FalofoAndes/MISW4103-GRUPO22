@@ -1,6 +1,6 @@
 # MISW4103-GRUPO22
 
-En este repositorio se tienen dos proyectos de pruebas, uno con Kraken y otro con Playwright. Para ambos proyectos se tiene que la Aplicación Bajo Pruebas (AUT) es Ghost. Los datos del proyecto son los siguientes: 
+En este repositorio se tienen dos proyectos de pruebas, uno con Kraken y otro con Playwright. Para ambos proyectos se tiene que la Aplicación Bajo Pruebas (AUT) es Ghost. La versión de Ghost desplegada es la 5.14.1. Los datos del proyecto son los siguientes: 
 
 - URL de la aplicación desplegada: https://ghost-ur1e.onrender.com
 - Plataformas donde se ejecutaron pruebas: Windows 11 y Ubuntu 22.04
