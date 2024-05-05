@@ -98,7 +98,6 @@ Then('I see the text of url page change to {string}', async function (url) {
 Then('I see the error {string}', async function (error) {
     const element = await this.driver.$('.for-select.form-group.error.ember-view');
     let textElement= await element.getText();
-    console.log("aaaaaaaa:",textElement);
     assert(textElement.includes(error));
 });
 
@@ -123,7 +122,6 @@ When('I enter new url {string}', async function (newUrl) {
 Then('I see the error about longer title {string}', async function (title) {
     const element = await this.driver.$(".gh-alert-content");
     let textElement= await element.getText();
-    console.log(textElement);
     assert(textElement.includes(title));
 });
 
