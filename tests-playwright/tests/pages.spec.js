@@ -69,7 +69,7 @@ test("testing delete Author in EditPage", async ({ page }) => {
   await pagesPage.deleteAuthor();
 });
 
-test("testing longest title page", async ({ page }) => {
+test("testing edit longest title page", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -84,7 +84,7 @@ test("testing longest title page", async ({ page }) => {
   );
 });
 
-test("testing change URL page", async ({ page }) => {
+test("testing edit change URL page", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(

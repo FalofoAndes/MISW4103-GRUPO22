@@ -28,12 +28,8 @@ exports.PostPage = class PostPage {
     this.comboAuthor = page.locator("#author-list");
     this.errormsg = page.locator("#entry-controls div");
     this.removeItem = page.locator('span[aria-label="remove element"]');
-    this.selectPost = page.locator(
-      'h3.gh-content-entry-title:has-text("Pruebas_post")'
-    );
-    this.selectPost2 = page.locator(
-      'h3.gh-content-entry-title:has-text("maths")'
-    );
+    this.selectPost = page.locator('h3:has-text("Solo Titulo")');
+    this.selectPost2 = page.locator('h3:has-text("(Untitled)")');
     this.errormsgAuthor = page.locator(
       'p:has-text("At least one author is required.")'
     );
@@ -66,6 +62,7 @@ exports.PostPage = class PostPage {
     const newPagePromise = this.page.waitForEvent("popup");
     await this.postBookmarkContainer.click();
     await this.page.waitForTimeout(2000);
+    console.log("The Post has been changed.");
   }
 
   async fillPost(title, subtitle) {
@@ -138,12 +135,14 @@ exports.PostPage = class PostPage {
     const newPagePromise = this.page.waitForEvent("popup");
     await this.postBookmarkContainer.click();
     await this.page.waitForTimeout(2000);
+    console.log("The URL has been changed.");
   }
 
   async deleteAuthor() {
     await this.listPost.click();
-    await this.page.waitForTimeout(2000);
-    await this.selectPost.click();
+    
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
     await this.menuOpc.click();
     await this.comboAuthor.click();
     await this.removeItem.click();
@@ -162,25 +161,25 @@ exports.PostPage = class PostPage {
 
   async editPost(text) {
     await this.listPost.click();
-    await this.page.waitForTimeout(2000);
-    await this.selectPost2.click();
+    
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
     await this.postTitle.fill(text);
     await this.updateBtn.click();
     await this.page.waitForTimeout(2000);
     const isPopupVisible = await this.popupMessage.isVisible();
     if (isPopupVisible) {
-      console.log("The popup message has appeared.");
+      console.log("The popup message of confirmation of edited has appeared.");
     } else {
       console.log("The popup message has not appeared.");
     }
-    await this.postTitle.fill("maths");
-    await this.updateBtn.click();
+    
   }
 
   async editPostTitle(text) {
     await this.listPost.click();
-    await this.page.waitForTimeout(2000);
-    await this.selectPost2.click();
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
     await this.postTitle.fill(text);
     await this.updateBtn.click();
     await this.page.waitForTimeout(2000);
@@ -194,19 +193,17 @@ exports.PostPage = class PostPage {
       console.log("The alert message has not appeared.");
     }
 
-    await this.postTitle.fill("maths");
-    await this.updateBtn.click();
   }
 
   async changeURL(newurl) {
     await this.listPost.click();
-    await this.page.waitForTimeout(2000);
-    await this.selectPost.click();
+    await this.selectPost2.first().click();
+    await this.page.waitForTimeout(3000);
     await this.menuOpc.click();
     await this.ComboURL.click();
     await this.ComboURL.fill(newurl);
-    // await this.goURL.click();
-    // await this.page.reload();
+    await this.goURL.click();
     await this.page.waitForTimeout(2000);
+    console.log("The URL has been changed.");
   }
 };

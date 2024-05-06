@@ -20,9 +20,9 @@ exports.PagesPage = class PagesPage {
     this.comboAuthor = page.locator("#author-list");
     this.errormsg = page.locator("#entry-controls div");
     this.removeItem = page.locator('button:has-text("remove element")');
-    //this.listPage = page.locator('#ember631');
+    this.pagesList = page.locator('a:has-text("Pages")');
     this.selectPage = page
-      .locator('h3.gh-content-entry-title:has-text("Uniandes Page")')
+      .locator('h3.gh-content-entry-title:has-text("New Title")')
       .nth(0);
     this.comboAuthor = page.locator("#author-list");
     this.errormsg = page.locator("#entry-controls div");
@@ -45,6 +45,8 @@ exports.PagesPage = class PagesPage {
     this.publishButton2 = page.locator(
       ".ember-view gh-btn-editor gh-editor-back-button"
     );
+    this.updateButton = page.locator('button:has-text("Publish")');
+    this.urlPreviewText = page.locator(".ghost-url-preview");
   }
 
   async createPage(title, subtitle) {
@@ -64,6 +66,7 @@ exports.PagesPage = class PagesPage {
     console.log("PostBookmarkContainer: ", postBookmarkContainer);
     await postBookmarkContainer.click();
     await this.page.waitForTimeout(2000);
+    console.log("The Page has been created.");
   }
 
   async checkPage(title) {
@@ -129,6 +132,7 @@ exports.PagesPage = class PagesPage {
     await this.sectionPages.click();
     await this.page.waitForTimeout(2000);
     await this.selectPage.click();
+
     await this.postTitle.fill(text);
     await this.updateBtn.click();
     await this.page.waitForTimeout(2000);
@@ -142,30 +146,30 @@ exports.PagesPage = class PagesPage {
 
   async editPageTitle(text, subtitletext) {
     await this.sectionPages.click();
-    await this.newPage.click();
+    await this.pagesList.first().click();
+    await this.selectPage.first().click();
     await this.pageTitle.fill(text);
     await this.pageContent.fill(subtitletext);
+    await this.updateButton.click();
+    const isAlertVisible = await this.alertMessage.isVisible();
 
-    const isUpdateBtnVisible = await this.updateBtn.isVisible();
-
-    if (isUpdateBtnVisible) {
-      await this.updateBtn.click();
-      await this.page.waitForTimeout(2000);
-    } else {
+    if (isAlertVisible) {
       console.log(
-        "BUG Found!! The update button is not visible and the maximun of 255 characters pop up message is not displayed."
+        "The alert message has appeared--> Validation failed: Title cannot be longer than 255 characters."
       );
+    } else {
+      console.log("The alert message has not appeared.");
     }
   }
 
   async changeURL(newurl) {
     await this.sectionPages.click();
-    await this.newPage.click();
+    await this.pagesList.first().click();
+    await this.selectPage.first().click();
     await this.menuOpc.click();
     await this.ComboURL.click();
     await this.ComboURL.fill(newurl);
-    // await this.goURL.click();
-    // await this.page.reload();
-    await this.page.waitForTimeout(2000);
+    let text = await this.urlPreviewText.textContent();
+    console.log("Text of new URL: ", text);
   }
 };
