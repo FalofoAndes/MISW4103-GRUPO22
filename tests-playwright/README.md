@@ -24,7 +24,7 @@ npx playwright test
 
 Cuando se finaliza la ejecución de las pruebas se despliega un servidor web local donde se muestra el resultado de estas. Allí también se pueden ver los pasos ejecutados en cada prueba. 
 
-Las pruebas son ejecutadas por defecto en el navegador de Firefox en modo headless. Sin embargo, si se desea ejecutar las pruebas en otro navegador, se puede descomentar la sección del navegador deseado en el archivo `playwright.config.ts`
+Las pruebas son ejecutadas por defecto en el navegador de Firefox y Chrome en modo headless. Sin embargo, si se desea ejecutar las pruebas en otro navegador, se puede descomentar la sección del navegador deseado en el archivo `playwright.config.ts`
 
 ```
     {
