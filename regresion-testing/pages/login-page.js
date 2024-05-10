@@ -4,9 +4,11 @@ exports.LoginPage = class LoginPage {
 
   /**
    * @param {import('@playwright/test').Page} page
+   * @param {String} screenshotsPath
    */
-  constructor(page) {
+  constructor(page, screenshotsPath) {
     this.page = page;
+    this.screenshotsPath = screenshotsPath;
     this.getStartedLink = page.locator('a', { hasText: 'Get started' });
     this.user = page.locator('input[name="identification"]');
     this.password = page.locator('input[name="password"]');
@@ -24,15 +26,14 @@ exports.LoginPage = class LoginPage {
     }
   }
 
-
-
   async submitLoginForm(user, password) {
     await this.user.fill(user);
-    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
+    console.log(`this.screenshotsPath: ${this.screenshotsPath}`)
+    this.createScreenshot(`${this.screenshotsPath}/login-fill-user-`);
     await this.password.fill(password);
-    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
+    this.createScreenshot(`${this.screenshotsPath}/login-fill-password-`);
     await this.signInButton.click();
-    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
+    this.createScreenshot(`${this.screenshotsPath}/login-click-signup-btn-`);
   }
 
   async checkErrorMessage() {
