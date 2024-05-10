@@ -1,5 +1,6 @@
 const { expect } = require("@playwright/test");
 const { exit } = require("process");
+let screenshotCounter = 1;
 
 exports.PostPage = class PostPage {
   /**
@@ -50,17 +51,33 @@ exports.PostPage = class PostPage {
     );
   }
 
+  async createScreenshot(ruta) {
+    let formattedCounter = String(screenshotCounter).padStart(3, "0");
+    await this.page.screenshot({ path: `${ruta}${formattedCounter}.png` });
+    screenshotCounter++;
+    if (screenshotCounter > 999) {
+      screenshotCounter = 1;
+    }
+  }
+
   async createPost(title, subtitle) {
     await this.newpost.click();
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.postTitle.fill(title);
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.postContent.fill(subtitle);
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.publishButton.click();
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.continueButton.click();
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.page.waitForTimeout(1000);
     await this.finalPublishButton.click({ force: true });
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.page.waitForTimeout(2000);
     const newPagePromise = this.page.waitForEvent("popup");
     await this.postBookmarkContainer.click();
+    this.createScreenshot(`./printscreen/posts/before_createpost_`);
     await this.page.waitForTimeout(2000);
     console.log("The Post has been changed.");
   }
@@ -68,6 +85,7 @@ exports.PostPage = class PostPage {
   async fillPost(title, subtitle) {
     await this.createPost(title, subtitle);
     const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
+    this.createScreenshot(`./printscreen/posts/before_fillpost_`);
     if (postBookmarkTitleText === title) {
       console.log("The title is correct.");
     } else {
@@ -77,16 +95,25 @@ exports.PostPage = class PostPage {
 
   async fillPostUntitled(title, subtitle) {
     await this.newpost.click();
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.postTitle.fill(title);
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.postContent.fill(subtitle);
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.postTitle.fill("");
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.postContent.fill("");
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.publishButton.click();
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.continueButton.click();
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.page.waitForTimeout(1000);
     await this.finalPublishButton.click({ force: true });
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.page.waitForTimeout(2000);
     await this.postBookmarkContainer.click();
+    this.createScreenshot(`./printscreen/posts/before_fillpostUntitled_`);
     await this.page.waitForTimeout(2000);
     const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
     if (postBookmarkTitleText === "(Untitled)") {
@@ -99,16 +126,23 @@ exports.PostPage = class PostPage {
   async accesingNewPost(title, subtitle) {
     title = title.trim();
     await this.newpost.click();
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.postTitle.fill(title);
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.postContent.fill(subtitle);
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.publishButton.click();
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.continueButton.click();
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.page.waitForTimeout(1000);
     await this.finalPublishButton.click({ force: true });
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     await this.page.waitForTimeout(2000);
     const newPagePromise = this.page.waitForEvent("popup");
     await this.postBookmarkContainer.click();
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_accesingNewPost_`);
     const newPage = await newPagePromise;
     const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
     if (postBookmarkTitleText === title) {
@@ -120,34 +154,48 @@ exports.PostPage = class PostPage {
 
   async newTAGinPost(title, subtitle) {
     await this.newpost.click();
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.postTitle.fill(title);
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.postContent.fill(subtitle);
-
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.menuOpc.click();
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.ComboTag.click();
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.selectTag.click();
-
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.publishButton.click();
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.continueButton.click();
     await this.page.waitForTimeout(1000);
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     await this.finalPublishButton.click({ force: true });
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     const newPagePromise = this.page.waitForEvent("popup");
     await this.postBookmarkContainer.click();
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_newTAGinPost_`);
     console.log("The URL has been changed.");
   }
 
   async deleteAuthor() {
     await this.listPost.click();
-    
+
     await this.selectPost.first().click();
     await this.page.waitForTimeout(3000);
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.menuOpc.click();
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.comboAuthor.click();
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.removeItem.click();
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.page.keyboard.press("Backspace");
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.page.keyboard.press("Tab");
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     const responseText = await this.errormsgAuthor.textContent();
 
     if (responseText === "At least one author is required.") {
@@ -161,28 +209,34 @@ exports.PostPage = class PostPage {
 
   async editPost(text) {
     await this.listPost.click();
-    
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.selectPost.first().click();
     await this.page.waitForTimeout(3000);
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.postTitle.fill(text);
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     await this.updateBtn.click();
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_deleteAuthorPost_`);
     const isPopupVisible = await this.popupMessage.isVisible();
     if (isPopupVisible) {
       console.log("The popup message of confirmation of edited has appeared.");
     } else {
       console.log("The popup message has not appeared.");
     }
-    
   }
 
   async editPostTitle(text) {
     await this.listPost.click();
+    this.createScreenshot(`./printscreen/posts/before_editPostTitle_`);
     await this.selectPost.first().click();
     await this.page.waitForTimeout(3000);
+    this.createScreenshot(`./printscreen/posts/before_editPostTitle_`);
     await this.postTitle.fill(text);
+    this.createScreenshot(`./printscreen/posts/before_editPostTitle_`);
     await this.updateBtn.click();
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_editPostTitle_`);
     const isAlertVisible = await this.alertMessage.isVisible();
 
     if (isAlertVisible) {
@@ -192,18 +246,23 @@ exports.PostPage = class PostPage {
     } else {
       console.log("The alert message has not appeared.");
     }
-
   }
 
   async changeURL(newurl) {
     await this.listPost.click();
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     await this.selectPost2.first().click();
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     await this.page.waitForTimeout(3000);
     await this.menuOpc.click();
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     await this.ComboURL.click();
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     await this.ComboURL.fill(newurl);
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     await this.goURL.click();
     await this.page.waitForTimeout(2000);
+    this.createScreenshot(`./printscreen/posts/before_changeURLPost_`);
     console.log("The URL has been changed.");
   }
 };

@@ -1,5 +1,5 @@
 const { expect } = require('@playwright/test');
-
+let screenshotCounter = 1;
 exports.LoginPage = class LoginPage {
 
   /**
@@ -15,11 +15,24 @@ exports.LoginPage = class LoginPage {
     this.errormsg = page.locator('.main-error');
    }
 
+   async createScreenshot(ruta) {
+    let formattedCounter = String(screenshotCounter).padStart(3, "0");
+    await this.page.screenshot({ path: `${ruta}${formattedCounter}.png` });
+    screenshotCounter++;
+    if (screenshotCounter > 999) {
+      screenshotCounter = 1;
+    }
+  }
+
+
 
   async submitLoginForm(user, password) {
     await this.user.fill(user);
+    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
     await this.password.fill(password);
+    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
     await this.signInButton.click();
+    this.createScreenshot(`./printscreen/login/before_submitLoginForm_`);
   }
 
   async checkErrorMessage() {

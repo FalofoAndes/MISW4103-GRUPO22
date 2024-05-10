@@ -1,5 +1,5 @@
 const { expect } = require('@playwright/test');
-
+let screenshotCounter = 1;
 exports.DashBoardPage = class DashBoardPage {
 
   /**
@@ -13,18 +13,25 @@ exports.DashBoardPage = class DashBoardPage {
     this.posts = page.locator('a', { hasText: 'Posts' });
 
 
-    // this.user = page.locator('input[name="identification"]');
-    // this.password = page.locator('input[name="password"]');
-    // this.signInButton = page.locator('button', { hasText: 'Sign in →' });
-    // this.buttonRetry = page.locator('button', { hasText: 'Retry' });
-    // this.errormsg = page.locator('.main-error');
    }
+
+   async createScreenshot(ruta) {
+    let formattedCounter = String(screenshotCounter).padStart(3, "0");
+    await this.page.screenshot({ path: `${ruta}${formattedCounter}.png` });
+    screenshotCounter++;
+    if (screenshotCounter > 999) {
+      screenshotCounter = 1;
+    }
+  }
    
 
   async submitLoginForm(user, password) {
     await this.user.fill(user);
+    this.createScreenshot(`./printscreen/dashboard/before_submitLoginForm_`);
     await this.password.fill(password);
-    await this.signInButton.click();
+    this.createScreenshot(`./printscreen/dashboard/before_submitLoginForm_`);
+    await this.signInButton.click() ;
+    this.createScreenshot(`./printscreen/dashboard/before_submitLoginForm_`);
   }
 
   async checkErrorMessage() {
