@@ -1,5 +1,5 @@
 {
-  "id": "backstop_default",
+  "id": "test_ghost",
   "viewports": [
     {
       "label": "default",
@@ -11,35 +11,17 @@
   "onReadyScript": "puppet/onReady.js",
   "scenarios": [
     {
-      "label": "Inicio",
-      "url": "https://monitor177.github.io/color-palette/",
-      "referenceUrl": "https://monitor177.github.io/color-palette/",
+      "label": "Login empty credentials",
+      "url": "http://localhost:8080/ghost-5.14.1/test_case_1.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/test_case_1.png",
       "readyEvent": "",
       "readySelector": "",
       "delay": 0,
       "hideSelectors": [],
       "removeSelectors": [],
       "hoverSelector": "",
-      "clickSelector": "#generate",
-      "postInteractionWait": 1,
-      "selectors": [],
-      "selectorExpansion": true,
-      "expect": 0,
-      "misMatchThreshold" : 0.1,
-      "requireSameDimensions": true
-    },
-    {
-      "label": "Paleta de colores",
-      "url": "https://monitor177.github.io/color-palette/",
-      "referenceUrl": "https://monitor177.github.io/color-palette/",
-      "readyEvent": "",
-      "readySelector": "",
-      "delay": 0,
-      "hideSelectors": [],
-      "removeSelectors": [],
-      "hoverSelector": "",
-      "clickSelector": "#generate",
-      "postInteractionWait": 1,
+      "clickSelector": "",
+      "postInteractionWait": 0,
       "selectors": [],
       "selectorExpansion": true,
       "expect": 0,

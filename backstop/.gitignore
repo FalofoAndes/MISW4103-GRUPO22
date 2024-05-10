@@ -29,6 +29,8 @@ examples/**/html_report/
 **/backstop_data/html_report/
 **/backstop_data/json_report/
 **/backstop_data/reports/
+**/backstop_data/bitmaps_reference/
+
 compare/config.js
 capture/config.json
 
