@@ -32,7 +32,7 @@ test("create page and check it", async ({ page }) => {
   await pagesPage.checkPage(titlePage);
 });
 
-test("create Untitled page", async ({ page }) => {
+test("create untitled page", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
