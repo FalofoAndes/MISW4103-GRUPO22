@@ -181,3 +181,11 @@ Then('I confirm that the validation error {string} is shown', async function (er
     let textElement= await element.getText();
     assert(textElement.includes(error));
 });
+
+When('I take a screenshot {string} {string}', async function (folder, name) {
+    const fs = require('fs');
+    if (!fs.existsSync(`./screenshots/${folder}`)){
+        fs.mkdirSync(`./screenshots/${folder}`);
+    }
+    return await this.driver.saveScreenshot(`./screenshots/${folder}/${name}.png`)    
+});
