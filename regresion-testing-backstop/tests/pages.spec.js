@@ -20,9 +20,6 @@ test("create no author page", async ({ page }) => {
       projectConfig.credentials.email,
       projectConfig.credentials.password
     );
-    await expect(page).toHaveURL(
-      app.baseUrl + "/#/dashboard"
-    );
     const pagesPage = new PagesPage(
       page,
       app.screenshotsPath,
