@@ -48,7 +48,7 @@ exports.PostPage = class PostPage {
 
   async checkTitlePage(title) {
     await this.postContent.click();
-    await this.page.waitForTimeout(1000); 
+    await this.page.waitForTimeout(2000); 
     const pageTitle = await this.page.title();
     // Verificar si contiene una subcadena específica
     expect(pageTitle).toContain(title); // Coincidencia parcial sin RegExp

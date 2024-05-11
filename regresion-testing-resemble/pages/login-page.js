@@ -26,7 +26,7 @@ exports.LoginPage = class LoginPage {
     const userPassword = 'Uniandes123456';
     await this.navigateTo(url);
     await this.submitLoginForm(username, userPassword);
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(3000);
     await this.utils.takeScreenshot();
   }
 };
