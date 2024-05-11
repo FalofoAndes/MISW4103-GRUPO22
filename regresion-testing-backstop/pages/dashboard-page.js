@@ -45,31 +45,3 @@ exports.DashBoardPage = class DashBoardPage {
     }
   }
 }
-
-//import { test, expect } from '@playwright/test';
-
-// test('test', async ({ page }) => {
-//   await page.goto('https://ghost-ur1e.onrender.com/ghost/#/signin');
-//   await page.getByPlaceholder('jamie@example.com').click();
-//   await page.getByPlaceholder('jamie@example.com').fill('pruebauniandes@uniandes.edu.co');
-//   await page.getByPlaceholder('•••••••••••••••').fill('Uniandes123456');
-//   await page.getByRole('button', { name: 'Sign in →' }).click();
-//   await page.getByRole('link', { name: 'New post' }).click();
-//   await page.getByPlaceholder('Post title').fill('fgfghg');
-//   await page.locator('.koenig-editor__editor').click();
-//   await page.getByText('ghgfgg').dblclick();
-//   await page.getByPlaceholder('Post title').click();
-//   await page.getByPlaceholder('Post title').fill('');
-//   await page.getByRole('button', { name: 'Publish' }).click();
-//   await page.getByRole('button', { name: 'Continue, final review →' }).click();
-//   const page1Promise = page.waitForEvent('popup');
-//   await page.getByRole('link', { name: '(Untitled) my first site •' }).click();
-//   const page1 = await page1Promise;
-//   await page1.getByRole('heading', { name: '(Untitled)' }).click();
-//   await page1.getByRole('link', { name: 'Home' }).click();
-//   await page.getByRole('button', { name: 'Editor', exact: true }).click();
-//   await page.locator('#ember156').click();
-//   await page.getByRole('link', { name: 'Posts' }).click();
-//   await page.getByRole('link', { name: '(Untitled) By Estudiante uniandes • 1 minute ago 1 minute ago' }).click();
-//   await page.getByRole('link', { name: 'Posts' }).click();
-// });
