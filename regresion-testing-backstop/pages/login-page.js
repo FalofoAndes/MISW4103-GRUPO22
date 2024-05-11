@@ -28,9 +28,9 @@ exports.LoginPage = class LoginPage {
 
   async submitLoginForm(user, password) {
     await this.user.fill(user);
-    await this.createScreenshot("fill-user");
+    // await this.createScreenshot("fill-user");
     await this.password.fill(password);
-    await this.createScreenshot("fill-password");
+    // await this.createScreenshot("fill-password");
     await this.signInButton.click();
     await this.createScreenshot("click-signup-btn");
   }
