@@ -1,5 +1,5 @@
 {
-  "id": "test_ghost",
+  "id": "Ghost",
   "viewports": [
     {
       "label": "default",
@@ -11,20 +11,123 @@
   "onReadyScript": "puppet/onReady.js",
   "scenarios": [
     {
-      "label": "Login empty credentials",
-      "url": "http://localhost:8080/ghost-5.14.1/test_case_1.png",
-      "referenceUrl": "http://localhost:8080/ghost-3.2.0/test_case_1.png",
-      "readyEvent": "",
-      "readySelector": "",
-      "delay": 0,
-      "hideSelectors": [],
-      "removeSelectors": [],
-      "hoverSelector": "",
-      "clickSelector": "",
+      "label": "Login-Empty-Credentials-01-Click-Signup-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/login-empty-credentials-01-click-signup-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/login-empty-credentials-01-click-signup-btn.png",
       "postInteractionWait": 0,
-      "selectors": [],
       "selectorExpansion": true,
-      "expect": 0,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Login-User-Not-Registered-02-Click-Signup-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/login-user-not-registered-02-click-signup-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/login-user-not-registered-02-click-signup-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Page-No-Author-01-Click-Pages-Section",
+      "url": "http://localhost:8080/ghost-5.14.1/page-no-author-01-click-pages-section.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/page-no-author-01-click-pages-section.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Page-No-Author-02-Click-New-Page",
+      "url": "http://localhost:8080/ghost-5.14.1/page-no-author-02-click-new-page.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/page-no-author-02-click-new-page.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Page-No-Author-03-Click-Menu-Option",
+      "url": "http://localhost:8080/ghost-5.14.1/page-no-author-03-click-menu-option.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/page-no-author-03-click-menu-option.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Page-No-Author-03-Click-Signup-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/page-no-author-03-click-signup-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/page-no-author-03-click-signup-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Page-No-Author-04-Author-Removed",
+      "url": "http://localhost:8080/ghost-5.14.1/page-no-author-04-author-removed.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/page-no-author-04-author-removed.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Untitled-Post-01-Click-New-Post",
+      "url": "http://localhost:8080/ghost-5.14.1/post-untitled-post-01-click-new-post.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-untitled-post-01-click-new-post.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Untitled-Post-01-Click-Signup-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/post-untitled-post-01-click-signup-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-untitled-post-01-click-signup-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Untitled-Post-02-Click-Publish-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/post-untitled-post-02-click-publish-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-untitled-post-02-click-publish-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Untitled-Post-03-Click-Bookmark-Container",
+      "url": "http://localhost:8080/ghost-5.14.1/post-untitled-post-03-click-bookmark-container.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-untitled-post-03-click-bookmark-container.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Url-New-Post-02-Click-Signup-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/post-url-new-post-02-click-signup-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-url-new-post-02-click-signup-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Url-New-Post-04-Click-New-Post",
+      "url": "http://localhost:8080/ghost-5.14.1/post-url-new-post-04-click-new-post.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-url-new-post-04-click-new-post.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Url-New-Post-05-Click-Publish-Btn",
+      "url": "http://localhost:8080/ghost-5.14.1/post-url-new-post-05-click-publish-btn.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-url-new-post-05-click-publish-btn.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
+      "misMatchThreshold" : 0.1,
+      "requireSameDimensions": true
+    },{
+      "label": "Post-Url-New-Post-06-Click-Bookmark-Container",
+      "url": "http://localhost:8080/ghost-5.14.1/post-url-new-post-06-click-bookmark-container.png",
+      "referenceUrl": "http://localhost:8080/ghost-3.2.0/post-url-new-post-06-click-bookmark-container.png",
+      "postInteractionWait": 0,
+      "selectorExpansion": true,
       "misMatchThreshold" : 0.1,
       "requireSameDimensions": true
     }
