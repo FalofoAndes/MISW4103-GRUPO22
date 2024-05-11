@@ -4,7 +4,7 @@ import { PostPage } from "../pages/post-page";
 
 const CASES = {
   baseUrl: "https://ghost-ur1e.onrender.com/ghost/#",
-  screenshotsPath: "../screenshots/ghost-5.14.1",
+  screenshotsPath: "./screenshots/ghost-5.14.1",
 };
 
 test("testing creating new untitled post", async ({ page }) => {
@@ -29,7 +29,7 @@ test("testing creating new untitled post", async ({ page }) => {
     "Sería untitled"
   );
 
-  // Se hace la asserción final 
+  // Se hace la asserción final
   expect(title).toBe("(Untitled)");
 });
 
@@ -45,6 +45,16 @@ test("testing URL of new post", async ({ page }) => {
     "Uniandes123456"
   );
   await expect(page).toHaveURL(CASES.baseUrl + "/dashboard");
-  const postPage = new PostPage(page);
-  await postPage.accesingNewPost("Nuevos post con URL ", "Cuenta con URL");
+  const postPage = new PostPage(
+    page,
+    CASES.screenshotsPath,
+    "post-url-new-post"
+  );
+  const title = await postPage.accesingNewPost(
+    "Nuevos post con URL",
+    "Cuenta con URL"
+  );
+
+  // Se hace la asserción final
+  expect(title).toBe("Nuevos post con URL");
 });

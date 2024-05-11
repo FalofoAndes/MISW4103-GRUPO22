@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/login-page";
 
 const CASES = {
   baseUrl : "https://ghost-ur1e.onrender.com/ghost/#/signin",
-  screenshotsPath: "../screenshots/ghost-5.14.1"
+  screenshotsPath: "./screenshots/ghost-5.14.1"
 }
 
 test("testing empty credentials", async ({ page }) => {
