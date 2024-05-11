@@ -1,12 +1,17 @@
 {
   "appsUnderTests": [
     {
+      "baseUrl": "https://ghost-4uyg.onrender.com/ghost",
+      "version": "ghost-3.2.0"
+    },
+    {
       "baseUrl": "https://ghost-ur1e.onrender.com/ghost",
-      "screenshotsPath": "./screenshots/ghost-5.14.1"
+      "version": "ghost-5.14.1"
     }
   ],
   "credentials": {
     "email": "pruebauniandes@uniandes.edu.co",
     "password": "Uniandes123456"
-  }
+  },
+  "screenshotsPath": "./screenshots/"
 }

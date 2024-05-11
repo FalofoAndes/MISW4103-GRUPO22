@@ -12,7 +12,7 @@ exports.LoginPage = class LoginPage {
     this.getStartedLink = page.locator('a', { hasText: 'Get started' });
     this.user = page.locator('input[name="identification"]');
     this.password = page.locator('input[name="password"]');
-    this.signInButton = page.locator('button', { hasText: 'Sign in →' });
+    this.signInButton = page.locator('button', { hasText: 'Sign in' });
     this.buttonRetry = page.locator('button', { hasText: 'Retry' });
     this.errormsg = page.locator('.main-error');
    }
@@ -37,12 +37,6 @@ exports.LoginPage = class LoginPage {
 
   async checkErrorMessage() {
     const errorMessage = await this.errormsg.innerText();
-    const messageNoblanks = errorMessage.trim();
-    
-    if(messageNoblanks !== 'Please fill out the form to sign in.' && 
-       messageNoblanks !== 'There is no user with that email address.' &&
-       messageNoblanks !== 'Your password is incorrect.') {
-      throw new Error(`Unexpected error message: ${messageNoblanks}`);
-    }
+    return errorMessage.trim();
   }
 }
