@@ -80,3 +80,16 @@ test.describe('Edit post title and verify that change the title page', () => {
     });
   });
 }); 
+
+
+test.describe('Create page without title', () => {
+  loginUrls.forEach((loginUrl) => {
+    test(`Create page with ${loginUrl.name}`, async ({ page }) => {
+      let version = loginUrl.name === 'New Ghost' ? 'New' : 'Old';
+      const utilities = new Utilities(page, 0, 'CreatePageSC1/' + version);
+      const pagePage = new PagePage(page, utilities);
+      await pagePage.createPage('', 'Page content', loginUrl.url);
+      await pagePage.checkTitlePage('Untitled');
+    });
+  });
+}); 

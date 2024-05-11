@@ -70,6 +70,13 @@ exports.PagePage = class PagePage {
     const errorAuthor = await this.errorAuthor.textContent();
     expect(errorAuthor).toContain(error);
 
+  } 
+  
+  async checkTitlePage(title) {
+    await this.page.waitForTimeout(2000);
+    const pageTitle = await this.page.title();
+    await this.utils.takeScreenshot();
+    expect(pageTitle).toContain(title);
   }
 
 

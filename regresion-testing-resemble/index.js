@@ -3,14 +3,6 @@ const path = require('path');
 const compareImages = require("resemblejs/compareImages");
 const config = require("./config.json");
 
-const sourceFolder = "screenshots/EditPageSC1/New"; // Directorio con las imágenes originales
-const targetFolder = "screenshots/EditPageSC1/Old"; // Directorio con las imágenes modificadas
-const sourceFolder2 = "screenshots/EditPageSC2/New"; // Directorio con las imágenes modificadas
-const targetFolder2= "screenshots/EditPageSC2/Old"; // Directorio con las imágenes modificadas
-const sourceFolder3 = "screenshots/EditPostSC1/New"; // Directorio con las imágenes modificadas
-const targetFolder3= "screenshots/EditPostSC1/Old"; // Directorio con las imágenes modificadas
-const sourceFolder4 = "screenshots/EditPostSC2/New"; // Directorio con las imágenes modificadas
-const targetFolder4= "screenshots/EditPostSC2/Old"; // Directorio con las imágenes modificadas
 const resultsFolder = "./results"; // Directorio para guardar resultados
 const options = { scaleToSameSize: true, ignore: "antialiasing" }; // Opciones de comparación
 
@@ -70,27 +62,19 @@ async function compareImagesInFolders(sourceFolder, targetFolder, resultsFolder,
     return resultInfo;
 }
 
-// Comparar imágenes y mostrar resultados
-(async () => {
-    const results = await compareImagesInFolders(sourceFolder, targetFolder, resultsFolder,1);
-    console.log("Comparación completada. Resultados:", results);
-})();
 
 (async () => {
-    const results = await compareImagesInFolders(sourceFolder2, targetFolder2, resultsFolder,2);
-    console.log("Comparación completada. Resultados:", results);
-})();
-
-
-(async () => {
-    const results = await compareImagesInFolders(sourceFolder3, targetFolder3, resultsFolder,3);
-    console.log("Comparación completada. Resultados:", results);
-})();
-
-
-(async () => {
-    const results = await compareImagesInFolders(sourceFolder4, targetFolder4, resultsFolder,4);
-    console.log("Comparación completada. Resultados:", results);
+    const directoryPath = path.join(__dirname, 'screenshots'); 
+    fs.readdirSync(directoryPath).forEach(async (file, index) => {
+        let fullPath = path.join(directoryPath, file);
+        if (fs.statSync(fullPath).isDirectory()) {
+            const relativePath = path.relative(process.cwd(), fullPath);
+            const sourceFolder = `${relativePath}/New`;
+            const targetFolder = `${relativePath}/Old`;
+            const results = await compareImagesInFolders(sourceFolder, targetFolder, resultsFolder,index+1);
+            console.log("Comparación completada. Resultados:", results);
+        }
+    });
 })();
 
 function browser(id, info ,sourceFolder, targetFolder,numero_informe) {
