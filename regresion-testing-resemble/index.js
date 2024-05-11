@@ -113,6 +113,9 @@ function createReport(datetime, resInfo, sourceFolder, targetFolder,numero_infor
             <link rel="stylesheet" href="index.css">
         </head>
         <body>
+            <div>
+                <a href="#" class="link" onclick="window.history.back()">◀◀ Regresar</a>
+            </div>
             <h1>Visual Regression Test Report</h1>
             <p>Generated: ${datetime}</p>
             <div class="results">
