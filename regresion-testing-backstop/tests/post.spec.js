@@ -4,48 +4,64 @@ import { PostPage } from "../pages/post-page";
 
 const projectConfig = require("../project-config.json");
 
-test("testing creating new untitled post", async ({ page }) => {
-  const scenarioTag = "post-untitled-post";
+test.describe("testing creating new untitled post", () => {
+  projectConfig.appsUnderTests.forEach((app) => {
+    test(`new untitled post in ${app.version}`, async ({ page }) => {
+      const scenarioTag = "post-untitled-post";
 
-  // Hace lo mismo par cada app bajo pruebas definida
-  const navigationPromises = projectConfig.appsUnderTests.map(async (app) => {
-    await page.goto(app.baseUrl + "/signin");
-    const loginPage = new LoginPage(page, app.screenshotsPath, scenarioTag);
-    await loginPage.submitLoginForm(
-      projectConfig.credentials.email,
-      projectConfig.credentials.password
-    );
-    const postPage = new PostPage(page, app.screenshotsPath, scenarioTag);
-    const title = await postPage.fillPostUntitled(
-      "Nuevo untitle",
-      "Sería untitled"
-    );
+      await page.goto(app.baseUrl + "/signin");
+      const loginPage = new LoginPage(
+        page,
+        projectConfig.screenshotsPath + app.version,
+        scenarioTag
+      );
+      await loginPage.submitLoginForm(
+        projectConfig.credentials.email,
+        projectConfig.credentials.password
+      );
+      const postPage = new PostPage(
+        page,
+        projectConfig.screenshotsPath + app.version,
+        scenarioTag
+      );
+      const title = await postPage.fillPostUntitled(
+        "Nuevo untitle",
+        "Sería untitled"
+      );
 
-    // Se hace la asserción final
-    expect(title).toBe("(Untitled)");
+      // Se hace la asserción final
+      expect(title).toBe("(Untitled)");
+    });
   });
-  await Promise.all(navigationPromises);
 });
 
-test("testing URL of new post", async ({ page }) => {
-  const scenarioTag = "post-url-new-post";
+test.describe("testing URL of new post", () => {
+  projectConfig.appsUnderTests.forEach((app) => {
+    test(`URL of new post in ${app.version}`, async ({ page }) => {
+      const scenarioTag = "post-url-new-post";
 
-  // Hace lo mismo par cada app bajo pruebas definida
-  const navigationPromises = projectConfig.appsUnderTests.map(async (app) => {
-    await page.goto(app.baseUrl + "/signin");
-    const loginPage = new LoginPage(page, app.screenshotsPath, scenarioTag);
-    await loginPage.submitLoginForm(
-      projectConfig.credentials.email,
-      projectConfig.credentials.password
-    );
-    const postPage = new PostPage(page, app.screenshotsPath, scenarioTag);
-    const title = await postPage.accesingNewPost(
-      "Nuevos post con URL",
-      "Cuenta con URL"
-    );
+      await page.goto(app.baseUrl + "/signin");
+      const loginPage = new LoginPage(
+        page,
+        projectConfig.screenshotsPath + app.version,
+        scenarioTag
+      );
+      await loginPage.submitLoginForm(
+        projectConfig.credentials.email,
+        projectConfig.credentials.password
+      );
+      const postPage = new PostPage(
+        page,
+        projectConfig.screenshotsPath + app.version,
+        scenarioTag
+      );
+      const title = await postPage.accesingNewPost(
+        "Nuevos post con URL",
+        "Cuenta con URL"
+      );
 
-    // Se hace la asserción final
-    expect(title).toBe("Nuevos post con URL");
+      // Se hace la asserción final
+      expect(title).toBe("Nuevos post con URL");
+    });
   });
-  await Promise.all(navigationPromises);
 });
