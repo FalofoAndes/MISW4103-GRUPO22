@@ -11,43 +11,30 @@ exports.PagesPage = class PagesPage {
     this.pageTitle = page.locator(".gh-editor-title.ember-text-area.gh-input.ember-view");
     this.pageContent = page.locator(".koenig-editor__editor");
     this.pagePublishButton = page.getByRole("button", { name: "Publish" });
-    this.pageContinueButton = page.getByRole("button", {
-      name: "Continue, final review →",
-    });
-    this.finalPublishButton = page.getByRole("button", {
-      name: "Publish page, right now",
-    });
+    this.pageContinueButton = page.getByRole("button", {name: "Continue, final review →",});
+    this.finalPublishButton = page.getByRole("button", {name: "Publish page, right now",});
     this.postBookmarkTitle = page.locator(".gh-post-bookmark-title");
     this.menuOpc = page.getByRole("button", { name: "Settings" });
     this.comboAuthor = page.locator("#author-list");
     this.errormsg = page.locator("#entry-controls div");
     this.removeItem = page.locator('button:has-text("remove element")');
     this.pagesList = page.locator('a:has-text("Pages")');
-    this.selectPage = page
-      .locator('h3.gh-content-entry-title:has-text("New Title")')
-      .nth(0);
+    this.selectPage = page.locator('h3.gh-content-entry-title:has-text("New Title")').nth(0);
     this.errormsg = page.locator("#entry-controls div");
     this.removeItem = page.locator('span[aria-label="remove element"]');
-    this.errormsgAuthor = page.locator(
-      'p:has-text("At least one author is required.")'
-    );
-    this.selectBlank = page.locator(
-      "#entry-controls > div > div.settings-menu-content"
-    );
-    this.updateBtn = page.locator(
-      ".gh-btn.gh-btn-editor.gh-editor-save-trigger.green.ember-view"
-    );
+    this.errormsgAuthor = page.locator('p:has-text("At least one author is required.")');
+    this.selectBlank = page.locator("#entry-controls > div > div.settings-menu-content");
+    this.updateBtn = page.locator(".gh-btn.gh-btn-editor.gh-editor-save-trigger.green.ember-view");
     this.popupMessage = page.locator("body > div.gh-app > div > aside");
     this.alertMessage = page.locator("article.gh-alert.gh-alert-red");
     this.ComboURL = page.locator("#url");
-    this.goURL = page.locator(
-      "#entry-controls > div > div.settings-menu-content > form > div:nth-child(1) > a"
-    );
-    this.publishButton2 = page.locator(
-      ".ember-view gh-btn-editor gh-editor-back-button"
-    );
+    this.goURL = page.locator("#entry-controls > div > div.settings-menu-content > form > div:nth-child(1) > a");
+    this.publishButton2 = page.locator(".ember-view gh-btn-editor gh-editor-back-button");
     this.updateButton = page.locator('button:has-text("Publish")');
     this.urlPreviewText = page.locator(".ghost-url-preview");
+    this.newPage2 = page.locator('.gh-btn.gh-btn-green.ember-view');
+    this.config_v3 = page.locator('.post-settings');
+    this.newpage_v3 = page.locator('a.gh-btn.gh-btn-green.ember-view');
   }
 
   async createScreenshot(name) {
@@ -59,7 +46,9 @@ exports.PagesPage = class PagesPage {
     }
   }
 
-  async pageNoAuthor() {
+  async pageNoAuthor(appver) {
+    if (appver === "ghost-5.14.1") {
+
     await this.sectionPages.click();
     await this.createScreenshot(`click-pages-section`);
     await this.newPage.click();
@@ -72,6 +61,31 @@ exports.PagesPage = class PagesPage {
     await this.createScreenshot(`author-removed`);
     const comboText = await this.comboAuthor.textContent();
     return comboText.trim();
+    } else {
+
+    await this.sectionPages.click();
+    await this.createScreenshot(`click-pages-section`);
+    await this.page.waitForTimeout(2000);
+    await this.newpage_v3.click();
+    await this.createScreenshot(`click-new-page`);
+    await this.page.waitForTimeout(1000);
+    await this.config_v3.click();
+    await this.createScreenshot(`click-menu-option`);
+    await this.comboAuthor.click();
+    await this.page.keyboard.press('Backspace');
+    await this.page.waitForTimeout(1000);
+    await this.createScreenshot(`author-removed`);
+    const comboText = await this.comboAuthor.textContent();
+    return comboText.trim();
+
+
+
+
+
+
+    }
+
+    
   }
 
 }

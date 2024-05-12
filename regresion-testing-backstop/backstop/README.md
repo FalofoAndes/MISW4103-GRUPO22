@@ -14,7 +14,7 @@ Para ejecutar el proyecto en Ubuntu se puede ejecutar el siguiente script:
 ./run_vrt.sh 
 ```
 ## Ejecución en Windows
-> TODO
+
 
 ## Ejecución manual
 

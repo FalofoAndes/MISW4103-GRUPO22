@@ -7,6 +7,7 @@ test.describe("testing empty credentials", () => {
   projectConfig.appsUnderTests.forEach((app) => {
     test(`empty credentials in ${app.version}`, async ({ page }) => {
       const scenarioTag = "login-empty-credentials";
+
       await page.goto(app.baseUrl);
       const loginPage = new LoginPage(
         page,
@@ -33,8 +34,8 @@ test.describe("testing user not registered", () => {
       );
       await loginPage.submitLoginForm("user@uniandes.edu.co", "Uniandes7890");
       await page.waitForTimeout(2000);
-      const errorMessage = await loginPage.checkErrorMessage();
 
+      const errorMessage = await loginPage.checkErrorMessage();
       const matcher = containsAny(
         ["There is no user with that email address.", "Access denied."],
         errorMessage

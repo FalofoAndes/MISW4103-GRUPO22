@@ -6,8 +6,11 @@ const projectConfig = require("../project-config.json");
 
 test.describe("testing creating new untitled post", () => {
   projectConfig.appsUnderTests.forEach((app) => {
+    const appVersion = app.version; 
+
     test(`new untitled post in ${app.version}`, async ({ page }) => {
       const scenarioTag = "post-untitled-post";
+      
 
       await page.goto(app.baseUrl + "/signin");
       const loginPage = new LoginPage(
@@ -26,7 +29,8 @@ test.describe("testing creating new untitled post", () => {
       );
       const title = await postPage.fillPostUntitled(
         "Nuevo untitle",
-        "Sería untitled"
+        "Sería untitled",
+        appVersion
       );
 
       // Se hace la asserción final
@@ -57,7 +61,8 @@ test.describe("testing URL of new post", () => {
       );
       const title = await postPage.accesingNewPost(
         "Nuevos post con URL",
-        "Cuenta con URL"
+        "Cuenta con URL",
+        app.version
       );
 
       // Se hace la asserción final

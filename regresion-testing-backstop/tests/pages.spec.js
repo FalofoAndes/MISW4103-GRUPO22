@@ -6,6 +6,8 @@ const projectConfig = require("../project-config.json");
 
 test.describe("create no author page", () => {
   projectConfig.appsUnderTests.forEach((app) => {
+
+    const appVersion = app.version; 
     test(`no author page in ${app.version}`, async ({ page }) => {
       const scenarioTag = "page-no-author";
 
@@ -25,7 +27,7 @@ test.describe("create no author page", () => {
         projectConfig.screenshotsPath + app.version,
         scenarioTag
       );
-      const author = await pagesPage.pageNoAuthor();
+      const author = await pagesPage.pageNoAuthor(appVersion);
 
       expect(author).toBe("");
     });
