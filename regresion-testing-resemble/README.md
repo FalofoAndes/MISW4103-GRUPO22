@@ -21,6 +21,7 @@ Se recomienda en caso de no tener instalada la dependencia de playwright de mane
 npm install playwright
 ```
 ### Pasos para correr las pruebas:
+> En el proyecto se crear un index.html en la carpeta results desde el cual se listan los 5 reportes generados para su visualización. El proyecto viene por defecto con el reporte generado, si desea ejecutar los pasos puede realizarlo y obtendra un resultado similar.
 
 Dede la carpeta raíz se deben ejecutar los test haciendo uso del comando:
 
@@ -36,3 +37,5 @@ Posterior a esto se debe ejecutar el siguiente comando desde el CLI en la carpet
 node index.js
 ```
 Estos informes HTML se encontrarán en la carpeta '/results' junto con las imagenes sobrepuestas que nos entrega resembleJS, estás ultimas dentro de las carpetas 'compare'. Cada reporte contiene un analísis visual entre los diferentes estados entre la versión antigua y la versión más reciente de Ghiost, así como el MisMatch Percentage que indicá el parecido desde un punto de vista númerico de las imagenes. 
+
+
