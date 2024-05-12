@@ -89,12 +89,12 @@ function browser(id, info ,sourceFolder, targetFolder,numero_informe) {
         <div class="imgline">
             <div class="imgcontainer">
                 <span class="imgname">Before</span>
-                <img src="../${sourceFolder}/${id}" alt="Before Image">
-            </div>
-            <div class="imgcontainer">
-                <span class="imgname">After</span>
                 <img src="../${targetFolder}/${id}" alt="After Image">
-            </div>
+                </div>
+                <div class="imgcontainer">
+                <span class="imgname">After</span>
+                <img src="../${sourceFolder}/${id}" alt="Before Image">
+                </div>
             </div>
             <div class="imgcontainer">
                 <span class="imgname">Compare</span>
