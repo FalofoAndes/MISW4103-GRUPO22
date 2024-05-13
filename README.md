@@ -11,5 +11,10 @@ El grupo de trabajo está conformado por:
 - Carlos Rios (c.riosp@uniandes.edu.co)
 - Jairo Reyes (ja.reyesr1@uniandes.edu.co)
 
-En los directorios [tests-kraken](tests-kraken) y [tests-playwright](tests-playwright) están las instrucciones de uso de cada uno de los proyectos. 
+# Entrega Week 6
+En los directorios [tests-kraken](tests-kraken) y [tests-playwright](tests-playwright) están las instrucciones de uso de cada uno de los proyectos para que se pueda visualizar el Refactoring que se hizo en cada herramienta. 
+
+# Pruebas Visual Regression Testing
+En los directorios [Regresion testing en ResembleJS](regresion-testing-resemble) y [Regresion testing en Backstop JS](regresion-testing-backstop) están las instrucciones de uso de cada uno de los proyectos. 
+
 
