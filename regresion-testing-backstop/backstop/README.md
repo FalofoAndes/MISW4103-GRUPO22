@@ -14,8 +14,24 @@ Para ejecutar el proyecto en Ubuntu se puede ejecutar el siguiente script:
 ./run_vrt.sh 
 ```
 ## Ejecución en Windows
+Tener instalado el servicio http-server, ó instalarlo mediante el comando 
+```
+npm install -g http-server
+```
 
+En consola moverse a la carpeta donde están los screenshots
+Iniciar el servidor HTTP con el comando
 
+```
+npx http-server
+```
+
+Mover a la carpeta MISW4103-GRUPO22\regresion-testing-backstop\backstop
+ejecutar 
+```
+npx backstop reference
+npx backstop test
+```
 ## Ejecución manual
 
 Y luego 
