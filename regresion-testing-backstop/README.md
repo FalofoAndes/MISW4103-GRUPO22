@@ -26,8 +26,8 @@ Iniciar el servidor HTTP con el comando
 npx http-server
 ```
 
-Mover a la carpeta MISW4103-GRUPO22\regresion-testing-backstop\backstop
-ejecutar 
+Moverse a la carpeta MISW4103-GRUPO22\regresion-testing-backstop\backstop
+y ejecutar 
 ```
 npx backstop reference
 npx backstop test
