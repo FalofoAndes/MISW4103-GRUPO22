@@ -141,3 +141,113 @@ When("I enter a {string} with faker", async (title) => {
     await textAreaTitlePost.setValue(postTitle);
   });
   
+// DATE
+
+When("I enter in the first post in the list", async () => {
+  const link = await browser.$(
+    "ul.gh-nav-list.gh-nav-manage > li:first-child > a"
+  );
+  await link.click();
+  const firstPostInList = await browser.$("ol a");
+  await firstPostInList.click();
+});
+
+When("I enter in settings", async () => {
+  const settings = await browser.$('button[title="Settings"]');
+  await settings.click();
+});
+
+When("I put {string} in date publish of post", async (date) => {
+  // Seleccionar el input de fecha usando el placeholder
+  const dateInput = await $('input[placeholder="YYYY-MM-DD"]');
+  await dateInput.waitForDisplayed();
+  await browser.pause(500);
+  await dateInput.setValue(date); // Agrega el guion al principio
+  await browser.keys("Enter");
+});
+
+When("I put {string} in date publish of post with API", async (date) => {
+  // Seleccionar el input de fecha usando el placeholder
+  const dateInput = await $('input[placeholder="YYYY-MM-DD"]');
+  await dateInput.waitForDisplayed();
+
+  const response = await fetch(
+    "https://my.api.mockaroo.com/dates.json?key=fba87140"
+  );
+  const data = await response.json();
+  let dataValue = "";
+  if (date === "text") {
+    dataValue = data[randomInt(0, data.length)].text;
+  } else if (date === "invalid") {
+    dataValue = data[randomInt(0, data.length)].invalid;
+  } else if (date === "specials") {
+    dataValue = data[randomInt(0, data.length)].specials;
+  } else if (date === "future") {
+    dataValue = data[randomInt(0, data.length)].future;
+  } else if (date === "past") {
+    dataValue = data[randomInt(0, data.length)].past;
+  }
+  await dateInput.setValue(dataValue); // Agrega el guion al principio
+  await browser.keys("Enter");
+});
+
+When("I put {string} in date publish of post with faker", async (dataType) => {
+  // Seleccionar el input de fecha usando el placeholder
+  const dateInput = await $('input[placeholder="YYYY-MM-DD"]');
+  await dateInput.waitForDisplayed();
+  await browser.pause(500);
+
+  let dataValue;
+  // Generar datos falsos según el tipo especificado
+  switch (dataType) {
+    case "text":
+      // Generar un texto de dos palabras
+      dataValue = faker.lorem.words(2);
+      break;
+    case "invalid":
+      // Generar una fecha inválida con mes "00"
+      const yearInvalid = faker.number.int({ min: 1000, max: 3000 });
+      const monthInvalid = "00"; // Mes inválido
+      const dayInvalid = faker.number.int({ min: 1, max: 28 }); // Limitamos al día 28 para simplificar
+      dataValue = `${yearInvalid}-${monthInvalid.padStart(2, "0")}-${dayInvalid
+        .toString()
+        .padStart(2, "0")}`;
+      break;
+    case "specials":
+      // Generar texto con caracteres especiales
+      dataValue = faker.string.alphanumeric() + "!@#$%";
+      break;
+    case "future":
+      // Generar una fecha futura entre 2500 y 3000
+      const yearFuture = faker.number.int({ min: 2500, max: 3000 });
+      const monthFuture = faker.number.int({ min: 1, max: 12 });
+      const dayFuture = faker.number.int({ min: 1, max: 28 }); // Limitamos al día 28 para simplificar
+      dataValue = `${yearFuture}-${monthFuture
+        .toString()
+        .padStart(2, "0")}-${dayFuture.toString().padStart(2, "0")}`;
+      break;
+    case "past":
+      // Generar una fecha pasada entre 1000 y 1500
+      const yearPast = faker.number.int({ min: 1000, max: 1500 });
+      const monthPast = faker.number.int({ min: 1, max: 12 });
+      const dayPast = faker.number.int({ min: 1, max: 28 }); // Limitamos al día 28 para simplificar
+      dataValue = `${yearPast}-${monthPast
+        .toString()
+        .padStart(2, "0")}-${dayPast.toString().padStart(2, "0")}`;
+      break;
+    default:
+      throw new Error("Invalid data type");
+  }
+
+  // Establecer el valor generado en el campo de entrada
+  await dateInput.setValue(dataValue);
+  // Enviar la tecla "Enter" para confirmar el cambio
+  await browser.keys("Enter");
+});
+
+Then("I see the date's error {string}", async (error) => {
+  await browser.pause(500);
+  const errorDate = await browser.$(".gh-date-time-picker-error");
+  const messageError = await errorDate.getText();
+  expect(messageError).toContain(error);
+});
