@@ -1,6 +1,7 @@
 import { Given, When, Then, Before, After } from "@wdio/cucumber-framework";
 import { expect, $ } from "@wdio/globals";
 import { faker } from "@faker-js/faker";
+import PagesPage from "../pageobjects/pages.page.js";
 
 After(async () => {
   // Cerrar la instancia del navegador
@@ -250,4 +251,14 @@ Then("I see the date's error {string}", async (error) => {
   const errorDate = await browser.$(".gh-date-time-picker-error");
   const messageError = await errorDate.getText();
   expect(messageError).toContain(error);
+});
+
+When("I go to create page", async () => {
+  await browser.waitUntil(
+      async () => {
+          const isDisplayed = await browser.$('.gh-canvas-title').isDisplayed();
+          return isDisplayed;
+      }
+  );
+  await PagesPage.goToCreatePage();
 });
