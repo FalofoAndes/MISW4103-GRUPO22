@@ -49,10 +49,16 @@ export const config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
-        maxInstances: 1,
-        browserName: 'chrome'
-    }],
+    maxInstances: 10,
+    capabilities: [
+        {
+            maxInstances: 10,
+            browserName: 'chrome',
+            'goog:chromeOptions': {
+                args: []
+            }
+        }      
+    ],
 
     //
     // ===================
@@ -124,7 +130,21 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ["html-nice", {
+            outputDir: './reports/html-reports/',
+            filename: 'report.html',
+            reportTitle: 'Test Report Title',
+            linkScreenshots: true,
+            //to show the report in a browser when done
+            showInBrowser: true,
+            collapseTests: false,
+            //to turn on screenshots after every test
+            useOnAfterCommandForScreenshot: false,
+        }
+        ]
+    ],
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -331,4 +351,5 @@ export const config = {
     */
     // afterAssertion: function(params) {
     // }
+    
 }

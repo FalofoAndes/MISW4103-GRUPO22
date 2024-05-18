@@ -12,7 +12,13 @@ Given("I go to ghost", async () => {
   await browser.url(`https://ghost-ur1e.onrender.com/ghost/#/signin`);
 });
 
-When("I login with {string} and {string}", async (email, password) => {
+When("I login with {string} and {string}", async (email, password) => {  
+  await browser.waitUntil(
+    async () => {
+        const isDisplayed = await browser.$('input[name="identification"]').isDisplayed();
+        return isDisplayed;
+    }
+  );
   const emailInput = await browser.$('input[name="identification"]');
   const passwordInput = await browser.$('input[name="password"]');
   await emailInput.setValue(email);
@@ -23,6 +29,12 @@ When("I login with {string} and {string}", async (email, password) => {
 When(
   "I login with data row {string} email and password with API",
   async (row) => {
+    await browser.waitUntil(
+      async () => {
+          const isDisplayed = await browser.$('input[name="identification"]').isDisplayed();
+          return isDisplayed;
+      }
+    );
     const emailInput = await browser.$('input[name="identification"]');
     const passwordInput = await browser.$('input[name="password"]');
     const response = await fetch(
@@ -44,6 +56,12 @@ When(
 When(
   "I login with {string} and {string} faker",
   async (fakeEmail, fakePassword) => {
+      await browser.waitUntil(
+        async () => {
+            const isDisplayed = await browser.$('input[name="identification"]').isDisplayed();
+            return isDisplayed;
+        }
+    );
     const emailInput = await browser.$('input[name="identification"]');
     const passwordInput = await browser.$('input[name="password"]');
     const email =
@@ -247,7 +265,6 @@ When("I put {string} in date publish of post with faker", async (dataType) => {
 });
 
 Then("I see the date's error {string}", async (error) => {
-  await browser.pause(500);
   const errorDate = await browser.$(".gh-date-time-picker-error");
   const messageError = await errorDate.getText();
   expect(messageError).toContain(error);
