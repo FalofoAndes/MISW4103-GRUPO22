@@ -1,12 +1,12 @@
 import { Given, When, Then, Before, After } from "@wdio/cucumber-framework";
 import { expect, $ } from "@wdio/globals";
 import { faker } from "@faker-js/faker";
-import PagesPage from "../pageobjects/pages.page.js";
+import PagesPage from "./pageobjects/pages.page.js";
 
-After(async () => {
+ After(async () => {
   // Cerrar la instancia del navegador
   await browser.reloadSession();
-});
+}); 
 
 Given("I go to ghost", async () => {
   await browser.url(`https://ghost-ur1e.onrender.com/ghost/#/signin`);
@@ -88,10 +88,13 @@ Then("I see the error {string}", async (error) => {
 /* CREATE POST */
 
 When("I enter in create post", async () => {
-  const navCreatePost = await browser.$(
-    ".ember-view.gh-secondary-action.gh-nav-new-post"
-  );
-  await navCreatePost.click();
+  await browser.waitUntil(
+    async () => {
+        const isDisplayed = await browser.$('.gh-canvas-title').isDisplayed();
+        return isDisplayed;
+    }
+);
+  await browser.url(`https://ghost-ur1e.onrender.com/ghost/#/editor/post`);
 });
 
 When("I enter a {string}", async (title) => {
@@ -163,10 +166,13 @@ When("I enter a {string} with faker", async (title) => {
 // DATE
 
 When("I enter in the first post in the list", async () => {
-  const link = await browser.$(
-    "ul.gh-nav-list.gh-nav-manage > li:first-child > a"
-  );
-  await link.click();
+  await browser.url('https://ghost-ur1e.onrender.com/ghost/#/posts');
+  await browser.waitUntil(
+    async () => {
+        const isDisplayed = await browser.$('ol a').isDisplayed();
+        return isDisplayed;
+    }
+);
   const firstPostInList = await browser.$("ol a");
   await firstPostInList.click();
 });

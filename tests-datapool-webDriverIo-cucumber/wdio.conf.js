@@ -55,7 +55,7 @@ export const config = {
             maxInstances: 10,
             browserName: 'chrome',
             'goog:chromeOptions': {
-                args: []
+                args: ['--headless']
             }
         }      
     ],
