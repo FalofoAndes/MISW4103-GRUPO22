@@ -1,5 +1,4 @@
-# Pruebas de regresión visual
-
+# Pruebas E2E con generación de datos
 Esta carpeta contiene un proyecto que emplea generación de datos, apriori, pseudo aleatorios y aleatorios para generar pruebas e2e en la aplicación cms Ghost en cumplimiento de sus funcionalidades. Para las pruebas automatizadas E2E de la aplicación se usará webdriverIo con el framework de cucumber para realizar tanto las pruebas automatizadas como el lenguaje de especifiación . Las versiones de los componentes usados son las siguientes:
 
 - npm:10.5.1
