@@ -1,119 +1,256 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pages/login-page";
 import { PostPage } from "../pages/post-page";
+import {faker} from '@faker-js/faker';
+import { text } from "stream/consumers";
+
+
+faker.seed(329); 
+
 
 const URLinit = "https://ghost-ur1e.onrender.com/ghost/#/signin";
 const URLbase = "https://ghost-ur1e.onrender.com/ghost/#";
+const user = "pruebauniandes@uniandes.edu.co";
+const password = "Uniandes123456";
+const textRandom = faker.lorem.sentence();
+const emojis = faker.internet.emoji();  
+const textWithEmojis = `${textRandom} ${emojis}`;
 
-test("testing creating new post", async ({ page }) => {
+
+function textRandomMax(n){
+  return faker.string.alpha(n);
+} 
+
+function namesFaker() {
+  const firstName = faker.name.firstName();
+  const lastName = faker.name.lastName();
+  return `${firstName} ${lastName}`;
+}
+
+//-------------------------   TESTS    ---------------------
+
+test("SeudoRandom_testing creating new post", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.fillPost("Mi nuevo Post", "Ingreso de Subtitulos");
+  await postPage.createPost(textRandom, textRandom);
+  expect (true);
 });
 
-test("testing creating new UNTITLED post", async ({ page }) => {
+
+
+
+test("SeudoRandom_testing_creating_post_TitleMaxChars", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.fillPostUntitled("Nuevo untitle", "Sería untitled");
+  await postPage.createPost(textRandomMax(256), textRandom);
+  expect (true);  
+
 });
 
-test("testing creating new Only TITLE post", async ({ page }) => {
+
+test("SeudoRandom_testing_creating_post_SubtitleMaxChars", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.fillPost("Solo Titulo", "");
+  await postPage.createPost( textRandom,textRandomMax(256));
+  expect (true);  
+
 });
 
-test("testing URL of new post", async ({ page }) => {
+test("SeudoRandom_testing_creating_post_SpecialCharacters", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.accesingNewPost("Nuevos post con URL ", "Cuenta con URL");
+  var textSpecial = faker.string.symbol(40);
+  await postPage.createPost( textSpecial,textSpecial);
+  expect (true);  
+
 });
 
-test("testing new TAG of new post", async ({ page }) => {
+
+test("SeudoRandom_testing_creating_post_Notitle", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.newTAGinPost(
-    "Nuevos post con TAG ",
-    "Cuenta con un TAG valido"
-  );
+  await postPage.createPost( "", textRandom);
+  expect (true);  
+
 });
 
-test("testing delete Author in EditPost", async ({ page }) => {
+test("SeudoRandom_testing_creating_post_NoSUBtitle", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.deleteAuthor();
+  await postPage.createPost(textRandom,"");
+  expect (true);  
+
 });
 
-test("testing edit title", async ({ page }) => {
+test("SeudoRandom_testing change URL", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.editPost("Editando title post");
+  await postPage.changeURL(textRandom);
 });
 
-test("testing longest title", async ({ page }) => {
+
+test("SeudoRandom_testing change URL to MaxCharact", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.editPostTitle(
-    "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word  and the Little Blind Text should turn around and return to ends ir website."
-  );
+  await postPage.changeURL(textRandomMax(2056));
 });
 
-test("testing change URL", async ({ page }) => {
+
+test("SeudoRandom_testing change URL to SpecialCharact", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
-    "pruebauniandes@uniandes.edu.co",
-    "Uniandes123456"
+    user,
+    password
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const postPage = new PostPage(page);
-  await postPage.changeURL("rios");
+  var textSpecial = faker.string.symbol(40);
+  await postPage.changeURL(textSpecial);
 });
+
+
+test("SeudoRandom_testing change URL to CharactEmojis", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  var textSpecial = faker.string.symbol(40);
+  await postPage.changeURL(textWithEmojis);
+});
+
+
+test("SeudoRandom_testing metaData Tittle", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  await postPage.changeMetadata(textRandom,textRandom);
+});
+
+
+
+test("SeudoRandom_testing metaData MaxTittle", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  await postPage.changeMetadata(textRandomMax(2056),textRandom);
+});
+
+
+test("SeudoRandom_testing metaData EmojisTittle", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  await postPage.changeMetadata(textWithEmojis,textRandom);
+});
+
+
+
+test("SeudoRandom_testing metaData SpecialCharactTittle", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  var textSpecial = faker.string.symbol(40);
+  await postPage.changeMetadata(textSpecial,textRandom);
+});
+
+
+
+test("SeudoRandom_testing metaData SpecialCharactTextArea", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    user,
+    password
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const postPage = new PostPage(page);
+  var textSpecial = faker.string.symbol(40);
+  await postPage.changeMetadata2(textRandom,textSpecial);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+

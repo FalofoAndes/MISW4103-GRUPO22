@@ -27,7 +27,7 @@ exports.PagesPage = class PagesPage {
     this.removeItem = page.locator('button:has-text("remove element")');
     this.pagesList = page.locator('a:has-text("Pages")');
     this.selectPage = page
-      .locator('h3.gh-content-entry-title:has-text("New Title")')
+      .locator('h3.gh-content-entry-title:has-text("(Untitled)")')
       .nth(0);
     this.errormsg = page.locator("#entry-controls div");
     this.removeItem = page.locator('span[aria-label="remove element"]');
@@ -51,6 +51,12 @@ exports.PagesPage = class PagesPage {
     );
     this.updateButton = page.locator('button:has-text("Publish")');
     this.urlPreviewText = page.locator(".ghost-url-preview");
+    this.twitterbutton = page.locator('button >> text="Twitter card"');
+    this.twitterTitle = page.getByPlaceholder('(Untitled)');
+    this.twitterDescription = page.getByPlaceholder('Thoughts, stories and ideas.');
+    this.prevTwitterTitle = page.locator('.gh-social-twitter-preview-title');
+    this.prevTwitterDescript = page.locator('.gh-social-twitter-preview-desc');
+
   }
 
    
@@ -63,133 +69,25 @@ async createPage(title, subtitle) {
     await this.pageContent.fill(subtitle);
     await this.page.waitForTimeout(3000);
     const isAlertVisible = await this.alertMessage.isVisible();
-    if (!isAlertVisible) {
+    const isPublishButtonVisible = await this.pagePublishButton.isVisible();
+    if (!isAlertVisible && isPublishButtonVisible) {
       await this.pagePublishButton.click();
-      console.log("The alert message has not appeared.");
+      console.log("The alert message has not appeared. The page has been created.");
       return true;
     } else if (isAlertVisible) {
-      console.log(
-        "The alert message has appeared--> Validation failed: Title cannot be longer than 255 characters."
-      );
-      return "Title cannot be longer than 255 characters.";
+      throw new Error("Validation failed: Title cannot be longer than 255 characters.");
+    } else if (!isPublishButtonVisible) {
+      throw new Error("**BUG** - Publish button is not visible. - Reportado en GitHub");
     }
   } catch (error) {
-    console.log("Error: Detected Bug!!  ", error);
+    console.error("Error detected: ", error);
+    throw error;
   }
 }
     
-    
-    //const newPagePromise = this.page.waitForEvent("popup");
-  
-
-
-
-  //************CREATE PAGE*****************
-  async checkPage(title) {
-    await this.sectionPages.click();
-    await this.page.waitForTimeout(5000);
-    const pageTitleLocator = this.page.locator(
-      'span.midgrey-l2.fw5:has-text("' + title + '")'
-    );
-    const pageExists = (await pageTitleLocator.count()) < 0;
-
-    if (pageExists) {
-      console.log(`Page with title "${title}" exists.`);
-    } else {
-      console.log(`Page with title "${title}" does not exist.`);
-    }
-  }
-
-
-    //************PAGE UNTITLED*****************
-  async pageUntitled() {
-    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
-    await this.postBookmarkTitle.click();
-    if (postBookmarkTitleText === "(Untitled)") {
-      console.log("The title is correct.");
-    } else {
-      console.log("The title is incorrect.");
-    }
-  }
-
-    //************PAGE NO AUTHOR*****************
-  async pageNoAuthor(nameauthor) {
-    await this.sectionPages.click();
-    await this.newPage.click();
-    await this.menuOpc.click();
-    await this.comboAuthor.click();
-    await this.comboAuthor.textContent();
-    await this.page.getByLabel("remove element").click();
-    await this.page.keyboard.press("Backspace");
-    await this.page.keyboard.press("Tab");
-    await this.page.fieldAuthor.fill(nameauthor);
-    console.log(nameauthor);
    
-    
-   
-  }
 
-
-  //************DELETE AUTHOR*****************
-  async deleteAuthor() {
-    await this.sectionPages.click();
-    await this.newPage.click();
-    await this.menuOpc.click();
-    await this.comboAuthor.click();
-    await this.removeItem.click();
-    await this.page.keyboard.press("Backspace");
-    await this.page.keyboard.press("Tab");
-    const responseText = await this.errormsgAuthor.textContent();
-
-    if (responseText.trim() === "At least one author is required.") {
-      console.log('The text "At least one author is required." is present.');
-    } else {
-      console.log(
-        'The text "At least one author is required." is not present.'
-      );
-    }
-  }
-
-
-    //************EDIT PAGE*****************
-  async editPage(text) {
-    await this.sectionPages.click();
-    await this.page.waitForTimeout(2000);
-    await this.selectPage.click();
-    await this.postTitle.fill(text);
-    await this.updateBtn.click();
-    await this.page.waitForTimeout(2000);
-    const isPopupVisible = await this.popupMessage.isVisible();
-    if (isPopupVisible) {
-      console.log("The popup message has appeared.");
-    } else {
-      console.log("The popup message has not appeared.");
-    }
-  }
-
-
-
-    //************EDIT PAGE TITLE*****************
-  async editPageTitle(text, subtitletext) {
-    await this.sectionPages.click();
-    await this.pagesList.first().click();
-    await this.selectPage.first().click();
-    await this.pageTitle.fill(text);
-    await this.pageContent.fill(subtitletext);
-    await this.updateButton.click();
-    const isAlertVisible = await this.alertMessage.isVisible();
-
-    if (isAlertVisible) {
-      console.log(
-        "The alert message has appeared--> Validation failed: Title cannot be longer than 255 characters."
-      );
-    } else {
-      console.log("The alert message has not appeared.");
-    }
-  }
-
-
-    //************CHANGE URL*****************
+//************CHANGE URL*****************
   async changeURL(newurl) {
     await this.sectionPages.click();
     await this.pagesList.first().click();
@@ -198,6 +96,33 @@ async createPage(title, subtitle) {
     await this.ComboURL.click();
     await this.ComboURL.fill(newurl);
     let text = await this.urlPreviewText.textContent();
-    console.log("Text of new URL: ", text);
+    console.log("Text of new URL: ", text, "Se reports en GitHub, pues permite el acceso de emojis en la URL, estos caracteres no están siendo controlados.");
   }
-};
+  
+//************CHANGE TWITTER*****************
+  async changeTwitter(tittle, description) {
+    await this.sectionPages.click();
+    await this.newPage.click();
+    await this.menuOpc.click();
+    await this.twitterbutton.click();
+    await this.twitterTitle.fill(tittle);
+    await this.twitterDescription.fill(description);
+    let text = await this.prevTwitterTitle.textContent();
+    let text2 = await this.prevTwitterDescript.textContent();
+
+    if (text.length > 70) {
+      console.log("The twitter len title is: ", text.length, "The Max len title is 70, BUG!! Se reporta en GitHub");
+      return false
+    } else if (text2.length > 200) {
+      console.log("The twitter len description is: ", text2.length, "The Max len description is 200, BUG!! Se reporta en GitHub");
+      return false
+    } else if (text === tittle && text2 === description) {
+      console.log("The twitter title and description has been changed and all are correct.","Title", text.length,"Description", text2.length);
+      return true;
+    } else {
+      console.log("BUG!! se inyectaron 500 caracteres en Description y solo presenta en ","Title", text.length,"y en Description", text2.length);
+      return false; 
+    }
+
+    }
+  }

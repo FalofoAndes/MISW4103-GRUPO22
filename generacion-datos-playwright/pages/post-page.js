@@ -12,7 +12,10 @@ exports.PostPage = class PostPage {
     this.listPost = page.locator('span.gh-nav-viewname:has-text("Published")');
     this.postTitle = page.getByPlaceholder("Post title");
     this.postContent = page.locator(".koenig-editor__editor");
-    this.publishButton = page.getByRole("button", { name: "Publish" });
+    this.publishButton = page.locator(
+      ".gh-btn.gh-btn-editor.darkgrey.gh-publish-trigger"
+    );
+    //this.publishButtonV2 = page.getByRole("button", { name: "Publish" });
     this.continueButton = page.getByRole("button", {
       name: "Continue, final review →",
     });
@@ -49,176 +52,98 @@ exports.PostPage = class PostPage {
     this.publishButton2 = page.locator(
       ".ember-view gh-btn-editor gh-editor-back-button"
     );
+    this.editTAG = page.locator(
+      "#ember-power-select-trigger-multiple-input-ember731"
+    );
+    this.metadatabutton = page.locator('button >> text="Meta data"');
+    this.metaTitle = page.locator('input[name="post-setting-meta-title"]');
+    this.metaDescription = page.locator(
+      'textarea[name="post-setting-meta-description"]'
+    );
   }
-
-  async createScreenshot(ruta) {
-    let formattedCounter = String(screenshotCounter).padStart(3, "0");
-    await this.page.screenshot({ path: `${ruta}${formattedCounter}.png` });
-    screenshotCounter++;
-    if (screenshotCounter > 999) {
-      screenshotCounter = 1;
-    }
-  }
-
-
 
   async createPost(title, subtitle) {
     await this.newpost.click();
     await this.postTitle.fill(title);
+    await this.postTitle.press("Tab");
     await this.postContent.fill(subtitle);
-    await this.publishButton.click();
-    
-    
-  }
-
-
-
-
-
-  async fillPost(title, subtitle) {
-    await this.createPost(title, subtitle);
-    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
-    if (postBookmarkTitleText === title) {
-      console.log("The title is correct.");
-    } else {
-      console.log("The title is incorrect.");
-    }
-  }
-
-
-
-
-  async fillPostUntitled(title, subtitle) {
-    await this.newpost.click();
-    await this.postTitle.fill(title);
-    await this.postContent.fill(subtitle);
-    await this.postTitle.fill("");
-    await this.postContent.fill("");
-    await this.publishButton.click();
-    await this.continueButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.finalPublishButton.click({ force: true });
-    await this.page.waitForTimeout(2000);
-    await this.postBookmarkContainer.click();
-    await this.page.waitForTimeout(2000);
-    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
-    if (postBookmarkTitleText === "(Untitled)") {
-      console.log("The title is correct.");
-    } else {
-      console.log("The title is incorrect.");
-    }
-  }
-
-
-
-
-
-  async accesingNewPost(title, subtitle) {
-    title = title.trim();
-    await this.newpost.click();
-    await this.postTitle.fill(title);
-    await this.postContent.fill(subtitle);
-    await this.publishButton.click();
-    await this.continueButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.finalPublishButton.click({ force: true });
-    await this.page.waitForTimeout(2000);
-    const newPagePromise = this.page.waitForEvent("popup");
-    await this.postBookmarkContainer.click();
-    await this.page.waitForTimeout(2000);
-    const newPage = await newPagePromise;
-    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
-    if (postBookmarkTitleText === title) {
-      console.log("The title is correct.");
-    } else {
-      console.log("The title is incorrect.");
-    }
-  }
-
-
-
-
-  async newTAGinPost(title, subtitle) {
-    await this.newpost.click();
-    await this.postTitle.fill(title);
-    await this.postContent.fill(subtitle);
-    await this.menuOpc.click();
-    await this.ComboTag.click();
-    await this.selectTag.click();
-    await this.publishButton.click();
-    await this.continueButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.finalPublishButton.click({ force: true });
-    await this.page.waitForTimeout(2000);
-    const newPagePromise = this.page.waitForEvent("popup");
-    await this.postBookmarkContainer.click();
-    await this.page.waitForTimeout(2000);
-    console.log("The URL has been changed.");
-  }
-
-  async deleteAuthor() {
-    await this.listPost.click();
-
-    await this.selectPost.first().click();
     await this.page.waitForTimeout(3000);
-    await this.menuOpc.click();
-    await this.comboAuthor.click();
-    await this.removeItem.click();
-    await this.page.keyboard.press("Backspace");
-    await this.page.keyboard.press("Tab");
-    const responseText = await this.errormsgAuthor.textContent();
-
-    if (responseText === "At least one author is required.") {
-      console.log('The text "At least one author is required." is present.');
+    const isPublishButtonVisible = await this.publishButton.isVisible();
+    if (isPublishButtonVisible) {
+      await this.publishButton.click();
+      await this.continueButton.click();
+      console.log(
+        "The alert message has not appeared. The page has been created."
+      );
+      return true;
     } else {
       console.log(
-        'The text "At least one author is required." is not present.'
+        "**BUG** - Publish button is not visible despite everything is Ok. - Reportado en GitHub"
       );
-    }
-  }
-
-  async editPost(text) {
-    await this.listPost.click();
-    await this.selectPost.first().click();
-    await this.page.waitForTimeout(3000);
-    await this.postTitle.fill(text);
-    await this.updateBtn.click();
-    await this.page.waitForTimeout(2000);
-    const isPopupVisible = await this.popupMessage.isVisible();
-    if (isPopupVisible) {
-      console.log("The popup message of confirmation of edited has appeared.");
-    } else {
-      console.log("The popup message has not appeared.");
-    }
-  }
-
-  async editPostTitle(text) {
-    await this.listPost.click();
-    await this.selectPost.first().click();
-    await this.page.waitForTimeout(3000);
-    await this.postTitle.fill(text);
-    await this.updateBtn.click();
-    await this.page.waitForTimeout(2000);
-    const isAlertVisible = await this.alertMessage.isVisible();
-
-    if (isAlertVisible) {
-      console.log(
-        "The alert message has appeared--> Title cannot be longer than 255 characters.."
-      );
-    } else {
-      console.log("The alert message has not appeared.");
+      return false;
     }
   }
 
   async changeURL(newurl) {
-    await this.listPost.click();
-    await this.selectPost2.first().click();
-    await this.page.waitForTimeout(3000);
+    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/;
+    await this.newpost.click();
     await this.menuOpc.click();
     await this.ComboURL.click();
     await this.ComboURL.fill(newurl);
-    await this.goURL.click();
     await this.page.waitForTimeout(2000);
-    console.log("The URL has been changed.");
+    if (newurl.length > 2000) {
+      console.log("The URL is too long. Long of NewURL: " + newurl.length);
+    } else if (specialChars.test(newurl)) {
+      console.log(
+        "The URL contains special characters, the field is not being validated."
+      );
+    } else {
+      console.log("The URL has been changed and accept Emojis.");
+    }
+  }
+
+  async changeMetadata(title, subtitle) {
+    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/;
+    await this.newpost.click();
+    await this.postTitle.fill(title);
+    await this.postContent.fill(subtitle);
+    await this.menuOpc.click();
+    await this.metadatabutton.click();
+    await this.metaTitle.fill(title);
+    if (title.length > 2000) {
+      console.log(
+        "The metadata tittle has: " + title.length,
+        " characters and the system no validate it. BUG!!"
+      );
+    } else if (specialChars.test(title)) {
+      console.log("The metadata tittle contains special characters.");
+    } else {
+      console.log("The metadata tittle has been changed and accept Emojis.");
+    }
+    console.log("The metadata tittle has been changed.");
+  }
+
+  async changeMetadata2(title, subtitle) {
+    const specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?]+/;
+    await this.newpost.click();
+    await this.postTitle.fill(title);
+    await this.postContent.fill(subtitle);
+    await this.menuOpc.click();
+    await this.metadatabutton.click();
+    await this.metaTitle.fill(title);
+    await this.metaDescription.fill(subtitle);
+    if (subtitle.length > 2000) {
+      console.log(
+        "The metadata description has: " + subtitle.length,
+        " characters and the system no validate it. BUG!!"
+      );
+    } else if (specialChars.test(subtitle)) {
+      console.log("The metadata description contains special characters.");
+    } else {
+      console.log(
+        "The metadata description has been changed and accept Emojis."
+      );
+    }
+    console.log("The metadata description has been changed.");
   }
 };
