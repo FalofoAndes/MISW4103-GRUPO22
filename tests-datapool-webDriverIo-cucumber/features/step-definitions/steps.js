@@ -1,7 +1,7 @@
 import { Given, When, Then, Before, After } from "@wdio/cucumber-framework";
 import { expect, $ } from "@wdio/globals";
 import { faker } from "@faker-js/faker";
-import PagesPage from "./pageobjects/pages.page.js";
+import PagesPage from "../pageobjects/pages.page.js";
 
  After(async () => {
   // Cerrar la instancia del navegador
