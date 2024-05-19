@@ -146,4 +146,129 @@ exports.PostPage = class PostPage {
     }
     console.log("The metadata description has been changed.");
   }
+
+  async fillPostUntitled(title, subtitle) {
+    await this.newpost.click();
+    await this.postTitle.fill(title);
+    await this.postContent.fill(subtitle);
+    await this.postTitle.fill("");
+    await this.postContent.fill("");
+    await this.publishButton.click();
+    await this.continueButton.click();
+    await this.page.waitForTimeout(1000);
+    await this.finalPublishButton.click({ force: true });
+    await this.page.waitForTimeout(2000);
+    await this.postBookmarkContainer.click();
+    await this.page.waitForTimeout(2000);
+    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
+    if (postBookmarkTitleText === "(Untitled)") {
+      console.log("The title is correct.");
+    } else {
+      console.log("The title is incorrect.");
+    }
+  }
+
+  async fillPost(title, subtitle) {
+    await this.createPost(title, subtitle);
+    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
+    if (postBookmarkTitleText === title) {
+      console.log("The title is correct.");
+    } else {
+      console.log("The title is incorrect.");
+    }
+  }
+
+  async accesingNewPost(title, subtitle) {
+    title = title.trim();
+    await this.newpost.click();
+    await this.postTitle.fill(title);
+    await this.postContent.fill(subtitle);
+    await this.publishButton.click();
+    await this.continueButton.click();
+    await this.page.waitForTimeout(1000);
+    await this.finalPublishButton.click({ force: true });
+    await this.page.waitForTimeout(2000);
+    const newPagePromise = this.page.waitForEvent("popup");
+    await this.postBookmarkContainer.click();
+    await this.page.waitForTimeout(2000);
+    const newPage = await newPagePromise;
+    const postBookmarkTitleText = await this.postBookmarkTitle.textContent();
+    if (postBookmarkTitleText === title) {
+      console.log("The title is correct.");
+    } else {
+      console.log("The title is incorrect.");
+    }
+  }
+
+  async newTAGinPost(title, subtitle) {
+    await this.newpost.click();
+    await this.postTitle.fill(title);
+    await this.postContent.fill(subtitle);
+    await this.menuOpc.click();
+    await this.ComboTag.click();
+    await this.selectTag.click();
+    await this.publishButton.click();
+    await this.continueButton.click();
+    await this.page.waitForTimeout(1000);
+    await this.finalPublishButton.click({ force: true });
+    await this.page.waitForTimeout(2000);
+    const newPagePromise = this.page.waitForEvent("popup");
+    await this.postBookmarkContainer.click();
+    await this.page.waitForTimeout(2000);
+    console.log("The URL has been changed.");
+  }
+
+  async deleteAuthor() {
+    await this.listPost.click();
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
+    await this.menuOpc.click();
+    await this.comboAuthor.click();
+    await this.removeItem.click();
+    await this.page.keyboard.press("Backspace");
+    await this.page.keyboard.press("Tab");
+    const responseText = await this.errormsgAuthor.textContent();
+
+    if (responseText === "At least one author is required.") {
+      console.log('The text "At least one author is required." is present.');
+    } else {
+      console.log(
+        'The text "At least one author is required." is not present.'
+      );
+    }
+  }
+
+  async editPost(text) {
+    await this.listPost.click();
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
+    await this.postTitle.fill(text);
+    await this.updateBtn.click();
+    await this.page.waitForTimeout(2000);
+    const isPopupVisible = await this.popupMessage.isVisible();
+    if (isPopupVisible) {
+      console.log("The popup message of confirmation of edited has appeared.");
+    } else {
+      console.log("The popup message has not appeared.");
+    }
+  }
+
+  async editPostTitle(text) {
+    await this.listPost.click();
+    await this.selectPost.first().click();
+    await this.page.waitForTimeout(3000);
+    await this.postTitle.fill(text);
+    await this.updateBtn.click();
+    await this.page.waitForTimeout(2000);
+    const isAlertVisible = await this.alertMessage.isVisible();
+
+    if (isAlertVisible) {
+      console.log(
+        "The alert message has appeared--> Title cannot be longer than 255 characters.."
+      );
+    } else {
+      console.log("The alert message has not appeared.");
+    }
+  }
+
 };
