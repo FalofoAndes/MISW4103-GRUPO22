@@ -37,7 +37,6 @@ test("faker_testing empty credentials", async ({ page }) => {
 test("faker_testing special characteres in credentials", async ({ page }) => {
   await page.goto(URL);
   const loginPage = new LoginPage(page);
-  //const user = generateSpecialCharacters(10);
   const user = faker.internet.mac();
   await loginPage.submitLoginForm(user, "Uniandes123456");
   await loginPage.checkErrorMessage();
@@ -61,6 +60,16 @@ test("faker_testing when Psw is wrong", async ({ page }) => {
   await loginPage.submitLoginForm("pruebauniandes@uniandes.edu.co", password);
   await page.waitForTimeout(2000);
   await loginPage.checkErrorMessage();
+  await loginPage.buttonRetry.innerText("Retry");
+});
+
+test("apriori testing loging failed", async ({ page }) => {
+  await page.goto(URL);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    dataApriori.randomEmailString,
+    dataApriori.randomStringNoSpaces
+  );
   await loginPage.buttonRetry.innerText("Retry");
 });
 

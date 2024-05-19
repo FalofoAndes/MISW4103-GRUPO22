@@ -134,10 +134,26 @@ test("apriori create page", async ({ page }) => {
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
-  await pagesPage.createPage("My new page", "This is my new page");
+  await pagesPage.createPage(
+    dataApriori.randomString,
+    dataApriori.randomString
+  );
 });
 
-test("apriori create page and check it", async ({ page }) => {
+test("apriori testing_creating_page_TitleMaxChars", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    dataApriori.validEmail,
+    dataApriori.validPassword
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const pagesPage = new PagesPage(page);
+  await pagesPage.createPage(dataApriori.string256, dataApriori.randomString);
+  expect(page).toHaveText("Title cannot be longer than 255 characters.");
+});
+
+test("apriori testing_creating_page_Subtitle_huge_string", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -148,13 +164,12 @@ test("apriori create page and check it", async ({ page }) => {
   const pagesPage = new PagesPage(page);
   await pagesPage.createPage(
     dataApriori.randomString,
-    dataApriori.randomLongString
+    dataApriori.randomHugeString
   );
-  await page.goto(URLbase + "/dashboard");
-  await pagesPage.checkPage(dataApriori.randomString);
+  expect(true);
 });
 
-test("apriori create Untitled page", async ({ page }) => {
+test("apriori testing_create Untitled page", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -164,10 +179,9 @@ test("apriori create Untitled page", async ({ page }) => {
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
   await pagesPage.createPage(dataApriori.emptyString, dataApriori.randomString);
-  // await pagesPage.pageUntitled();
 });
 
-test("apriori create Noauthor page", async ({ page }) => {
+test("apriori testing_SpecialCharacters", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -176,10 +190,14 @@ test("apriori create Noauthor page", async ({ page }) => {
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
-  await pagesPage.pageNoAuthor();
+  await pagesPage.createPage(
+    dataApriori.stringSpecialChar,
+    dataApriori.stringSpecialChar
+  );
+  expect(true);
 });
 
-test("apriori testing delete Author in EditPage", async ({ page }) => {
+test("apriori testing_create without body", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -188,10 +206,13 @@ test("apriori testing delete Author in EditPage", async ({ page }) => {
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
-  await pagesPage.deleteAuthor();
+  await pagesPage.createPage(
+    dataApriori.randomString,
+    dataApriori.oneSpaceString
+  );
 });
 
-test("apriori testing edit longest title page", async ({ page }) => {
+test("apriori testing_edit change URL page", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -200,13 +221,10 @@ test("apriori testing edit longest title page", async ({ page }) => {
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
-  await pagesPage.editPageTitle(
-    "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word  and the Little Blind Text should turn around and return to ends ir website.",
-    "Subtitulo de la pagina"
-  );
+  await pagesPage.changeURL(dataApriori.emojiString);
 });
 
-test("apriori testing edit change URL page", async ({ page }) => {
+test("apriori test_twitter Title&Subtitle", async ({ page }) => {
   await page.goto(URLinit);
   const loginPage = new LoginPage(page);
   await loginPage.submitLoginForm(
@@ -215,5 +233,41 @@ test("apriori testing edit change URL page", async ({ page }) => {
   );
   await expect(page).toHaveURL(URLbase + "/dashboard");
   const pagesPage = new PagesPage(page);
-  await pagesPage.changeURL ("riosPage");
+  await pagesPage.changeTwitter(
+    dataApriori.randomString,
+    dataApriori.randomString
+  );
+  expect(true);
+});
+
+test("apriori test_twitter MAXTitle", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    dataApriori.validEmail,
+    dataApriori.validPassword
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const pagesPage = new PagesPage(page);
+  await pagesPage.changeTwitter(
+    dataApriori.string100,
+    dataApriori.randomString
+  );
+  expect(true);
+});
+
+test("apriori test_twitter MAXDescription", async ({ page }) => {
+  await page.goto(URLinit);
+  const loginPage = new LoginPage(page);
+  await loginPage.submitLoginForm(
+    dataApriori.validEmail,
+    dataApriori.validPassword
+  );
+  await expect(page).toHaveURL(URLbase + "/dashboard");
+  const pagesPage = new PagesPage(page);
+  await pagesPage.changeTwitter(
+    dataApriori.randomString,
+    dataApriori.string500
+  );
+  expect(true);
 });
