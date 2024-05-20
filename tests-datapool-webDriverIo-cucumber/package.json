@@ -1,0 +1,20 @@
+{
+  "name": "apriori-gherkins",
+  "type": "module",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@wdio/cli": "^8.36.1",
+    "@wdio/cucumber-framework": "^8.36.1",
+    "@wdio/local-runner": "^8.36.1",
+    "@wdio/spec-reporter": "^8.36.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "scripts": {
+    "wdio": "wdio run ./wdio.conf.js"
+  },
+  "dependencies": {
+    "faker": "^6.6.6",
+    "wdio-html-nice-reporter": "^8.1.6"
+  }
+}
