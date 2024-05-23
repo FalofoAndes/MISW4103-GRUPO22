@@ -12,6 +12,7 @@
     "@types/node": "^20.12.12"
   },
   "dependencies": {
-    "@axe-core/playwright": "^4.9.1"
+    "@axe-core/playwright": "^4.9.1",
+    "jimp": "^0.22.12"
   }
 }
