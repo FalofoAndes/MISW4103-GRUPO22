@@ -9,7 +9,7 @@ test.describe("page", () => {
     const loginPage = new LoginPage(page);
     await loginPage.login();
     await page.goto("https://ghost-ur1e.onrender.com/ghost/#/pages");
-    await page.locator("h2", { hasText: "Pages" }).isEnabled();
+    await page.locator(".gh-canvas-title").isEnabled();
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
