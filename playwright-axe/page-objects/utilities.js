@@ -4,10 +4,24 @@ const path = require('path');
 async function saveAccessibilityScreenshot(page, violation, index, folder) {
   const screenshotPath = path.join('./screenshots/'+ folder, `accessibility-issue-${index + 1}.png`);
   const elementsToHighlight = violation.nodes.map(node => node.target).flat();
+const styleContent = elementsToHighlight.map(selector => `${selector} { outline: 2px solid red; }`).join(' ');
 
-  await page.addStyleTag({ content: elementsToHighlight.map(selector => `${selector} { outline: 2px solid red; }`).join(' ') });
-  await page.screenshot({ path: screenshotPath });
-  console.log(`Screenshot of issue saved at: ${screenshotPath}`);
+// Añade una etiqueta de estilo con un id único
+await page.addStyleTag({ content: styleContent });
+
+// Toma la captura de pantalla
+await page.screenshot({ path: screenshotPath });
+console.log(`Screenshot of issue saved at: ${screenshotPath}`);
+
+// Elimina el estilo añadido
+await page.evaluate(() => {
+  // Encuentra el estilo que contiene el contenido añadido y elimínalo
+  document.querySelectorAll('style').forEach(style => {
+    if (style.innerHTML.includes('{ outline: 2px solid red; }')) {
+      style.remove();
+    }
+  });
+});
 
   // Añadir espacio en blanco debajo de la imagen y texto con información
   const image = await Jimp.read(screenshotPath);
