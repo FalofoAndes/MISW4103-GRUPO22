@@ -38,4 +38,5 @@ En los directorios [Regresion testing en ResembleJS](regresion-testing-resemble)
 * BackstopJS -->  [Reporte HTML](regresion-testing-backstop/backstop/backstop_data/html_report)
 
 
-
+# Pruebas Accesibilidad
+En el directorío [playwright-axe](playwright-axe)
